@@ -1,0 +1,23 @@
+.landing-page {
+  text-align: center;
+  margin: 0 auto; /* This will center the div horizontally */
+  background-color: #E8F1F2;
+  border-radius: 25px;
+  border: 5px solid #31493C;
+  padding: 20px;
+  width: 50%;
+  height: 300px;
+}
+
+hr {
+  color: #31493C;
+}
+h2 {
+  font-size: 2em;
+  color: #4CAF50; /* Green */
+}
+
+p {
+  font-size: 1.2em;
+}
+
