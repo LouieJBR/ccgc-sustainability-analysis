@@ -1,1 +1,9 @@
-/* You can add global styles to this file, and also import other style files */
+/* styles.css */
+body {
+  font-family: 'Atkinson Hyperlegible', sans-serif;
+}
+
+/* If you want to apply it to specific elements */
+h1, h2, h3, p {
+  font-family: 'Atkinson Hyperlegible', sans-serif;
+}
