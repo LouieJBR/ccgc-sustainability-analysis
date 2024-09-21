@@ -1,13 +1,18 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { LandingPageComponent } from './landing-page/landing-page.component'; // Import your landing page component
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  imports: [RouterOutlet, LandingPageComponent], // Import RouterOutlet and your components directly
+  template: `
+    <router-outlet>
+      <app-landing-page></app-landing-page>
+    </router-outlet> <!-- Router outlet to render routed components -->
+  `,
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'frontend';
+  title = 'CCGC';
 }
