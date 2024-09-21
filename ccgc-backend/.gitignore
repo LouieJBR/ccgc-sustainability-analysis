@@ -31,3 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Ignore application secrets
+application.properties
+secrets/
+.env
