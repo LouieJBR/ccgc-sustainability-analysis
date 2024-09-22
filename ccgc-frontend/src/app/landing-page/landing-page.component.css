@@ -1,7 +1,6 @@
 .landing-page {
   text-align: center;
   margin: 0 auto; /* This will center the div horizontally */
-  background-color: #E8F1F2;
   border-radius: 25px;
   border: 5px solid #31493C;
   padding: 20px;
@@ -21,3 +20,7 @@ p {
   font-size: 1.2em;
 }
 
+mat-tab-group {
+  width: 50%;
+  margin: 0 auto; /* This will center the div horizontally */
+}

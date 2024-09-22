@@ -7,3 +7,6 @@ body {
 h1, h2, h3, p {
   font-family: 'Atkinson Hyperlegible', sans-serif;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
