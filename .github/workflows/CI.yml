@@ -1,4 +1,4 @@
-name: CI - Lint and Test (ccgc-frontend)
+name: CI - Lint (ccgc-frontend)
 
 on:
   push:
@@ -9,23 +9,19 @@ on:
       - main
 
 jobs:
-  lint-and-test:
+  lint:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [16.x, 18.x]
 
     steps:
       # Checkout the repository code
       - name: Checkout code
-        uses: actions/checkout@v3  # No need for node-version here
+        uses: actions/checkout@v3
 
-      # Set up the specified Node.js version for the workflow
-      - name: Set up Node.js ${{ matrix.node-version }}
+      # Set up Node.js 18.x for the workflow
+      - name: Set up Node.js 18.x
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 18.x
 
       # Install dependencies in the /ccgc-frontend directory
       - name: Install dependencies
@@ -36,27 +32,3 @@ jobs:
       - name: Run ESLint
         run: npm run lint
         working-directory: ./ccgc-frontend
-
-      # Run tests in the /ccgc-frontend directory
-#      - name: Run Tests
-#        id: test
-#        run: npm test
-#        working-directory: ./ccgc-frontend
-
-      # Check if 'coverage' folder exists in /ccgc-frontend directory
-      - name: Check if coverage exists
-        id: coverage_check
-        run: |
-          if [ -d "ccgc-frontend/coverage" ]; then
-            echo "coverage-exists=true" >> $GITHUB_OUTPUT
-          else
-            echo "coverage-exists=false" >> $GITHUB_OUTPUT
-          fi
-
-      # Upload coverage results if the folder exists in /ccgc-frontend
-      - name: Upload Coverage Results
-        if: success() && steps.coverage_check.outputs['coverage-exists'] == 'true'
-        uses: actions/upload-artifact@v3
-        with:
-          name: coverage-results
-          path: ccgc-frontend/coverage
