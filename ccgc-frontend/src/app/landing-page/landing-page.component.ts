@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {MatTab, MatTabGroup} from "@angular/material/tabs";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-landing-page',
@@ -7,7 +8,8 @@ import {MatTab, MatTabGroup} from "@angular/material/tabs";
   templateUrl: './landing-page.component.html',
   imports: [
     MatTab,
-    MatTabGroup
+    MatTabGroup,
+    RouterLink
   ],
   styleUrls: ['./landing-page.component.css'] // Fixed 'styleUrl' to 'styleUrls'
 })
