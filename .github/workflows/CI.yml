@@ -1,4 +1,4 @@
-name: CI - Lint and Test
+name: CI - Lint and Test (ccgc-frontend)
 
 on:
   push:
@@ -17,45 +17,52 @@ jobs:
         node-version: [16.x, 18.x]
 
     steps:
-      # Checkout the repository code using Node.js v20
+      # Checkout the repository code
       - name: Checkout code
         uses: actions/checkout@v3
         with:
           node-version: 20  # Enforce Node.js v20 for the action
 
-      # Set up the specified Node.js version for the workflow itself
+      # Set up the specified Node.js version for the workflow
       - name: Set up Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
 
-      # Install dependencies
+      # Change directory to /ccgc-frontend before running commands
+      - name: Change to ccgc-frontend directory
+        run: cd ccgc-frontend
+
+      # Install dependencies in the /ccgc-frontend directory
       - name: Install dependencies
         run: npm install
+        working-directory: ./ccgc-frontend
 
-      # Run ESLint
+      # Run ESLint in the /ccgc-frontend directory
       - name: Run ESLint
         run: npm run lint
+        working-directory: ./ccgc-frontend
 
-      # Run tests
+      # Run tests in the /ccgc-frontend directory
       - name: Run Tests
         id: test
         run: npm test
+        working-directory: ./ccgc-frontend
 
-      # Check if 'coverage' folder exists
+      # Check if 'coverage' folder exists in /ccgc-frontend directory
       - name: Check if coverage exists
         id: coverage_check
         run: |
-          if [ -d "coverage" ]; then
+          if [ -d "ccgc-frontend/coverage" ]; then
             echo "coverage-exists=true" >> $GITHUB_OUTPUT
           else
             echo "coverage-exists=false" >> $GITHUB_OUTPUT
           fi
 
-      # Upload coverage results if the folder exists
+      # Upload coverage results if the folder exists in /ccgc-frontend
       - name: Upload Coverage Results
         if: success() && steps.coverage_check.outputs['coverage-exists'] == 'true'
         uses: actions/upload-artifact@v3
         with:
           name: coverage-results
-          path: coverage
+          path: ccgc-frontend/coverage
