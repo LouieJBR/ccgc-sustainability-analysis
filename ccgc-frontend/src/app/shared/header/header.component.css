@@ -1,0 +1,16 @@
+.ccgc-header {
+  text-align: center;
+  margin: 50px;
+}
+
+hr {
+  color: #31493C;
+}
+h2 {
+  font-size: 2em;
+  color: #4CAF50; /* Green */
+}
+
+p {
+  font-size: 1.2em;
+}
