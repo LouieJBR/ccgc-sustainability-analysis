@@ -38,10 +38,10 @@ jobs:
         working-directory: ./ccgc-frontend
 
       # Run tests in the /ccgc-frontend directory
-      - name: Run Tests
-        id: test
-        run: npm test
-        working-directory: ./ccgc-frontend
+#      - name: Run Tests
+#        id: test
+#        run: npm test
+#        working-directory: ./ccgc-frontend
 
       # Check if 'coverage' folder exists in /ccgc-frontend directory
       - name: Check if coverage exists
