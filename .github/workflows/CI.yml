@@ -1,0 +1,51 @@
+name: CI - Lint and Test
+
+# When the workflow should run
+on:
+  push:
+    branches:
+      - main  # Runs when pushing to the main branch
+  pull_request:
+    branches:
+      - main  # Runs when a pull request targets the main branch
+
+# What jobs should be performed in this workflow
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+
+    # Define the Node.js version matrix (optional)
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x]  # Runs the workflow with these Node versions
+
+    steps:
+      # Checkout the repository code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up the specified Node.js version
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      # Install dependencies (assumes you're using npm or yarn)
+      - name: Install dependencies
+        run: npm install
+
+      # Run ESLint
+      - name: Run ESLint
+        run: npm run lint
+
+      # Run tests
+      - name: Run Tests
+        run: npm test
+
+      # Optional: Upload test coverage results if needed
+      - name: Upload Coverage Results
+        if: success() && fileExists('coverage')
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-results
+          path: coverage
