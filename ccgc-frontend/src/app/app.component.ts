@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { LandingPageComponent } from './landing-page/landing-page.component';
-import {HeaderComponent} from "./shared/header/header.component"; // Import your landing page component
+import {HeaderComponent} from "./shared/header/header.component";
 
 @Component({
   selector: 'app-root',

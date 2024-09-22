@@ -1,12 +1,131 @@
-/* styles.css */
-body {
-  font-family: 'Atkinson Hyperlegible', sans-serif;
-}
-
 /* If you want to apply it to specific elements */
 h1, h2, h3, p {
   font-family: 'Atkinson Hyperlegible', sans-serif;
 }
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/* General Body Styles */
+body {
+  background-color: #D4C1A0; /* Warm Sand */
+  font-family: 'Atkinson Hyperlegible', sans-serif;
+
+  color: #333333; /* Dark Charcoal */
+  margin: 0;
+  padding: 0;
+}
+
+/* Header Styles */
+.ccgc-header {
+  background-color: #2F4F4F; /* Deep Forest Green */
+  color: #F9F9F9; /* Off-White */
+  padding: 20px;
+  text-align: center;
+}
+
+.ccgc-header h2, .ccgc-header p {
+  margin: 0; /* Remove margins for a cleaner layout */
+}
+
+.ccgc-header h2 {
+  margin-bottom: 10px;
+}
+
+.ccgc-header p {
+  margin-bottom: 20px;
+}
+
+/* Horizontal Line */
+.ccgc-header hr {
+  border: 1px solid #F9F9F9; /* Light border for contrast */
+  margin: 20px 0; /* Space around the line */
+}
+
+/* Button Styles */
+.btn {
+  background-color: #3C91E6; /* Ocean Blue */
+  color: #F9F9F9; /* Off-White */
+  border: none; /* Remove default border */
+  padding: 10px 20px; /* Padding for button size */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s; /* Smooth background transition */
+}
+
+.btn:hover {
+  background-color: #E27D60; /* Terracotta on hover */
+}
+
+/* Navigation Styles */
+.horizontal-nav {
+  text-align: center; /* Center align the nav */
+  margin-top: 15px; /* Add some spacing above the nav */
+}
+
+.horizontal-nav ul {
+  list-style-type: none; /* Remove default list styles */
+  padding: 0; /* Remove padding */
+  display: inline-flex; /* Use inline-flex to make it horizontal */
+}
+
+.horizontal-nav li {
+  margin: 0 15px; /* Space between menu items */
+}
+
+.horizontal-nav a {
+  color: #F9F9F9; /* Off-White */
+  text-decoration: none; /* Remove underline */
+  padding: 10px 15px; /* Padding for clickable area */
+  border-radius: 5px; /* Rounded corners */
+  transition: background-color 0.3s; /* Smooth background transition */
+}
+
+.horizontal-nav a:hover {
+  background-color: #3C91E6; /* Change background on hover */
+}
+
+/* Section Styles */
+.section {
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 15px;
+  border: 2px solid #31493C; /* Match the border color */
+  background-color: #F9F9F9; /* Light background for sections */
+  width: 80%; /* Wider sections */
+}
+
+/* Flexbox Utilities */
+.flex {
+  display: flex;
+}
+
+.justify-space-between {
+  justify-content: space-between;
+}
+
+.metric-item {
+  flex: 1;
+  margin: 0 10px;
+  text-align: center;
+  border: 1px solid #31493C;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+/* Responsive Styles */
+@media (max-width: 600px) {
+  .ccgc-header {
+    padding: 15px; /* Adjust padding on smaller screens */
+  }
+
+  .ccgc-header h2 {
+    font-size: 1.5em; /* Responsive heading size */
+  }
+
+  .ccgc-header p {
+    font-size: 1em; /* Responsive paragraph size */
+  }
+
+  .section {
+    width: 95%; /* Make sections wider on small screens */
+  }
+}

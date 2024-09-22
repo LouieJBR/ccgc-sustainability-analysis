@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/ccgc-backend/ccgc-backend.iml" filepath="$PROJECT_DIR$/ccgc-backend/ccgc-backend.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/ccgc-sustainability-analysis.iml" filepath="$PROJECT_DIR$/.idea/ccgc-sustainability-analysis.iml" />
     </modules>
   </component>
