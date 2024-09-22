@@ -1,0 +1,34 @@
+name: CI - Lint (ccgc-frontend)
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up Node.js 18.x for the workflow
+      - name: Set up Node.js 18.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+
+      # Install dependencies in the /ccgc-frontend directory
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./ccgc-frontend
+
+      # Run ESLint in the /ccgc-frontend directory
+      - name: Run ESLint
+        run: npm run lint
+        working-directory: ./ccgc-frontend
