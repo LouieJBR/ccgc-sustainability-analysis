@@ -1,4 +1,4 @@
-package com.ccgc.cggcbackend;
+package src.main.java.com.ccgc.cggcbackend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
