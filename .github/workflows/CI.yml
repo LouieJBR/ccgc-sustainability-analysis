@@ -19,19 +19,13 @@ jobs:
     steps:
       # Checkout the repository code
       - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          node-version: 20  # Enforce Node.js v20 for the action
+        uses: actions/checkout@v3  # No need for node-version here
 
       # Set up the specified Node.js version for the workflow
       - name: Set up Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-
-      # Change directory to /ccgc-frontend before running commands
-      - name: Change to ccgc-frontend directory
-        run: cd ccgc-frontend
 
       # Install dependencies in the /ccgc-frontend directory
       - name: Install dependencies
