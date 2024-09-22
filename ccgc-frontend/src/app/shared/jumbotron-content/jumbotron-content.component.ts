@@ -1,11 +1,11 @@
 import {Component} from '@angular/core';
-import {NewsCarousel} from "../news-carousel/news-carousel";
-import {ContentCarousel} from "../content-carousel/content-carousel";
+import {NewsCarouselComponent} from "../news-carousel/news-carousel";
+import {ContentCarouselComponent} from "../content-carousel/content-carousel";
 
 @Component({
   selector: 'app-jumbotron-content',
   standalone: true,
-  imports: [NewsCarousel, ContentCarousel],
+  imports: [NewsCarouselComponent, ContentCarouselComponent],
   templateUrl: './jumbotron-content.component.html',
   styleUrl: './jumbotron-content.component.css'
 })
