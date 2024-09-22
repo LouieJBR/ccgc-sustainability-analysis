@@ -1,0 +1,31 @@
+/*!* News Sidebar Styles *!*/
+/*.sidebar {*/
+/*  background-color: #D4C1A0; !* Warm Sand background *!*/
+/*  color: #333333; !* Dark Charcoal text *!*/
+/*  padding: 20px;*/
+/*  border-left: 4px solid #3C91E6; !* Ocean Blue border *!*/
+/*  margin-bottom: 20px;*/
+/*}*/
+
+/*.sidebar h3 {*/
+/*  color: #2F4F4F; !* Deep Forest Green for headings *!*/
+/*  margin-bottom: 15px;*/
+/*}*/
+
+/*.sidebar ul {*/
+/*  list-style: none;*/
+/*  padding: 0;*/
+/*}*/
+
+/*.sidebar li {*/
+/*  margin-bottom: 15px;*/
+/*}*/
+
+/*.sidebar h4 {*/
+/*  color: #E27D60; !* Terracotta for news titles *!*/
+/*  margin: 0;*/
+/*}*/
+
+/*.sidebar p {*/
+/*  margin: 5px 0 0 0;*/
+/*}*/

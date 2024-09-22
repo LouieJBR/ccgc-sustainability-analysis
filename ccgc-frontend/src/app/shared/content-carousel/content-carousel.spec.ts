@@ -1,18 +1,18 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {HeaderComponent} from './header.component';
+import {ContentCarousel} from './content-carousel';
 
-describe('AppHeaderComponent', () => {
-  let component: HeaderComponent;
-  let fixture: ComponentFixture<HeaderComponent>;
+describe('ContentSideBarComponent', () => {
+  let component: ContentCarousel;
+  let fixture: ComponentFixture<ContentCarousel>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HeaderComponent]
+      imports: [ContentCarousel]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(HeaderComponent);
+    fixture = TestBed.createComponent(ContentCarousel);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

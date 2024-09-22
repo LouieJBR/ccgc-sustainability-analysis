@@ -1,0 +1,31 @@
+/* Jumbotron section containing both fact boxes */
+.jumbotron-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch; /* Use stretch to make child elements the same height */
+  padding: 20px;
+  background-color: #F7E7CE; /* Earthy background color */
+  height: 300px; /* Overall height for the jumbotron */
+  gap: 20px;
+}
+
+/* Each fact box */
+.fact-box {
+  flex: 1; /* Each box takes equal space */
+  background-color: #A3C3D9; /* Muted blue for contrast */
+  padding: 30px;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex; /* Enable flex on the fact box */
+  flex-direction: column; /* Arrange children in a column */
+  justify-content: center; /* Center content vertically */
+}
+
+/* Ensure responsive behavior on small screens */
+@media (max-width: 768px) {
+  .jumbotron-section {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
