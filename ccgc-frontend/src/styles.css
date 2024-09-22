@@ -3,7 +3,9 @@ h1, h2, h3, p {
   font-family: 'Atkinson Hyperlegible', sans-serif;
 }
 
-html, body { height: 100%; }
+html, body {
+  scroll-behavior: smooth;
+  height: 100%; }
 /* General Body Styles */
 body {
   background-color: #D4C1A0; /* Warm Sand */
