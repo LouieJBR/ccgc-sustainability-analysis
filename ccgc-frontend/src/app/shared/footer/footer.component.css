@@ -6,6 +6,7 @@
   text-align: center;
   border-top: 2px solid #E27D60; /* Terracotta border for separation */
   position: sticky;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .footer-content {

@@ -7,12 +7,35 @@
   border-bottom: 2px solid #E27D60; /* Terracotta border for separation */
 }
 
-.ccgc-header h2, .ccgc-header p {
+.ccgc-header h1, .ccgc-header p {
   margin: 0; /* Remove margins for a cleaner layout */
 }
 
-.ccgc-header h2 {
+.ccgc-header h1 {
   margin-bottom: 10px;
+  position: relative; /* Required for the shimmer effect */
+  overflow: hidden; /* Hide overflow */
+}
+
+.ccgc-header h1::before {
+  content: ''; /* Creates a pseudo-element for the shimmer */
+  position: absolute;
+  left: -100%; /* Start off-screen */
+  top: 0;
+  width: 100%; /* Cover the whole element */
+  height: 100%;
+  background: linear-gradient(90deg, transparent, #E27D60, transparent); /* Gradient for shimmer */
+  transition: left 0.5s ease-in-out; /* Smooth transition */
+  pointer-events: none; /* Allow clicks to pass through */
+  z-index: 0; /* Below text */
+}
+
+.ccgc-header h1:hover {
+  color: #4CAF50; /* Change to green on hover */
+}
+
+.ccgc-header h1:hover::before {
+  left: 100%; /* Move shimmer to the right on hover */
 }
 
 .ccgc-header p {

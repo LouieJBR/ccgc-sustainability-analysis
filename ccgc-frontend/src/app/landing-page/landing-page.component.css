@@ -5,6 +5,15 @@
   border: 2px solid #31493C; /* Match the border color */
   background-color: #F9F9F9; /* Light background for sections */
   width: 80%; /* Wider sections */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  transition: transform 0.3s ease; /* Smooth transition for growth */
+}
+
+.overview:hover,
+.metrics-section:hover,
+.suggestions-section:hover,
+.resources-section:hover {
+  transform: scale(1.02); /* Grow slightly on hover */
 }
 
 .metrics {
@@ -19,4 +28,9 @@
   border: 1px solid #31493C;
   padding: 10px;
   border-radius: 10px;
+  transition: transform 0.3s ease; /* Smooth transition for growth */
+}
+
+.metric-item:hover {
+  transform: scale(1.05); /* Grow slightly on hover */
 }
