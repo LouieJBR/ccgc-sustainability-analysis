@@ -40,11 +40,22 @@ jobs:
 
       # Run tests
       - name: Run Tests
+        id: test
         run: npm test
 
-      # Optional: Upload test coverage results if needed
+      # Check if 'coverage' folder exists and store the result
+      - name: Check if coverage exists
+        id: coverage_check
+        run: |
+          if [ -d "coverage" ]; then
+            echo "coverage-exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "coverage-exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      # Upload test coverage results only if the 'coverage' directory exists
       - name: Upload Coverage Results
-        if: success() && fileExists('coverage')
+        if: success() && steps.coverage_check.outputs['coverage-exists'] == 'true'
         uses: actions/upload-artifact@v3
         with:
           name: coverage-results
