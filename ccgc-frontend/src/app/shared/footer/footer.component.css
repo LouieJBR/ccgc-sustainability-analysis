@@ -1,0 +1,47 @@
+/* Footer Styles */
+.ccgc-footer {
+  background-color: #2F4F4F; /* Deep Forest Green (same as header for consistency) */
+  color: #F9F9F9; /* Off-White for contrast */
+  padding: 20px;
+  text-align: center;
+  border-top: 2px solid #E27D60; /* Terracotta border for separation */
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.ccgc-footer p {
+  margin: 0;
+  font-size: 1em;
+}
+
+.ccgc-footer nav {
+  margin-top: 10px;
+}
+
+.ccgc-footer a {
+  color: #3C91E6; /* Ocean Blue for links */
+  text-decoration: none;
+  margin: 0 5px;
+}
+
+.ccgc-footer a:hover {
+  color: #E27D60; /* Terracotta on hover */
+}
+
+/* Responsive Styles */
+@media (max-width: 600px) {
+  .ccgc-footer {
+    padding: 15px;
+  }
+
+  .ccgc-footer p {
+    font-size: 0.9em;
+  }
+
+  .ccgc-footer a {
+    font-size: 0.9em;
+  }
+}
