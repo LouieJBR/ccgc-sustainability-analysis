@@ -7,6 +7,7 @@
   background-color: #F7E7CE; /* Earthy background color */
   height: 300px; /* Overall height for the jumbotron */
   gap: 20px;
+  border-bottom: 2px solid #31493C;
 }
 
 /* Each fact box */
@@ -20,6 +21,7 @@
   display: flex; /* Enable flex on the fact box */
   flex-direction: column; /* Arrange children in a column */
   justify-content: center; /* Center content vertically */
+  border: 2px solid #E27D60;
 }
 
 /* Ensure responsive behavior on small screens */

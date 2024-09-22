@@ -12,7 +12,6 @@ import {JumbotronContentComponent} from "./shared/jumbotron-content/jumbotron-co
   template: `
     <router-outlet></router-outlet> <!-- Router outlet to render routed components -->
     <app-header></app-header>
-    <app-jumbotron-content></app-jumbotron-content>
     <app-landing-page></app-landing-page>
     <app-footer></app-footer>
   `,
