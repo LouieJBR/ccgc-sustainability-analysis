@@ -1,26 +1,36 @@
-.landing-page {
-  text-align: center;
-  margin: 0 auto; /* This will center the div horizontally */
-  border-radius: 25px;
-  border: 5px solid #31493C;
+.overview, .metrics-section, .suggestions-section, .resources-section {
+  margin: 20px auto;
   padding: 20px;
-  width: 50%;
-  height: 300px;
+  border-radius: 15px;
+  border: 2px solid #31493C; /* Match the border color */
+  background-color: #F9F9F9; /* Light background for sections */
+  width: 80%; /* Wider sections */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  transition: transform 0.3s ease; /* Smooth transition for growth */
 }
 
-hr {
-  color: #31493C;
-}
-h2 {
-  font-size: 2em;
-  color: #4CAF50; /* Green */
-}
-
-p {
-  font-size: 1.2em;
+.overview:hover,
+.metrics-section:hover,
+.suggestions-section:hover,
+.resources-section:hover {
+  transform: scale(1.02); /* Grow slightly on hover */
 }
 
-mat-tab-group {
-  width: 50%;
-  margin: 0 auto; /* This will center the div horizontally */
+.metrics {
+  display: flex;
+  justify-content: space-between;
+}
+
+.metric-item {
+  flex: 1;
+  margin: 0 10px;
+  text-align: center;
+  border: 1px solid #31493C;
+  padding: 10px;
+  border-radius: 10px;
+  transition: transform 0.3s ease; /* Smooth transition for growth */
+}
+
+.metric-item:hover {
+  transform: scale(1.05); /* Grow slightly on hover */
 }

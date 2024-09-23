@@ -1,0 +1,62 @@
+/* Footer Styles */
+.ccgc-footer {
+  background-color: #2F4F4F; /* Deep Forest Green (same as header for consistency) */
+  color: #F9F9F9; /* Off-White for contrast */
+  padding: 20px;
+  text-align: center;
+  border-top: 2px solid #E27D60; /* Terracotta border for separation */
+  width: 100%; /* Ensures full width */
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+  position: relative; /* Footer will stay at the end of the content */
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.ccgc-footer p {
+  margin: 0;
+  font-size: 1em;
+}
+
+.ccgc-footer nav {
+  margin-top: 10px;
+}
+
+.ccgc-footer a {
+  color: #3C91E6; /* Ocean Blue for links */
+  text-decoration: none;
+  margin: 0 5px;
+}
+
+.ccgc-footer a:hover {
+  color: #E27D60; /* Terracotta on hover */
+}
+
+/* Ensure there's space before the footer */
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Set minimum height to viewport */
+}
+
+main {
+  flex: 1; /* Allow content to take up flexible space */
+}
+
+/* Responsive Styles */
+@media (max-width: 600px) {
+  .ccgc-footer {
+    padding: 15px;
+  }
+
+  .ccgc-footer p {
+    font-size: 0.9em;
+  }
+
+  .ccgc-footer a {
+    font-size: 0.9em;
+  }
+}

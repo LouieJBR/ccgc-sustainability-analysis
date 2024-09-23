@@ -1,0 +1,29 @@
+/*!* Facts Sidebar Styles *!*/
+/*.sidebar {*/
+/*  background-color: #D4C1A0; !* Warm Sand background *!*/
+/*  color: #333333; !* Dark Charcoal text *!*/
+/*  padding: 20px;*/
+/*  border-left: 4px solid #E27D60; !* Terracotta border *!*/
+/*  margin-bottom: 20px;*/
+/*  position: sticky;*/
+/*  left: 0;*/
+/*}*/
+
+/*.sidebar h3 {*/
+/*  color: #2F4F4F; !* Deep Forest Green for headings *!*/
+/*  margin-bottom: 15px;*/
+/*}*/
+
+/*.sidebar ul {*/
+/*  list-style: none;*/
+/*  padding: 0;*/
+/*}*/
+
+/*.sidebar li {*/
+/*  margin-bottom: 10px;*/
+/*}*/
+
+/*.sidebar p {*/
+/*  margin: 0;*/
+/*  font-size: 1.1em;*/
+/*}*/

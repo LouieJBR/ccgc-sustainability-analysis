@@ -1,0 +1,45 @@
+/* Jumbotron section containing both fact boxes */
+.jumbotron-section {
+  width: 100%; /* Full width of the page */
+  padding: 20px 0; /* Add padding to the top and bottom, not the sides */
+  background-color: #F7E7CE; /* Earthy background color */
+  border-bottom: 2px solid #31493C;
+}
+
+/* Container to center and limit the width of fact boxes */
+.jumbotron-content {
+  width: 80%; /* Same width as the overview section */
+  margin: 0 auto; /* Center the content */
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch; /* Stretch to make child elements the same height */
+  gap: 20px;
+}
+
+/* Each fact box */
+.fact-box {
+  flex: 1; /* Each box takes equal space */
+  background-color: #A3C3D9; /* Muted blue for contrast */
+  padding: 30px;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex; /* Enable flex on the fact box */
+  flex-direction: column; /* Arrange children in a column */
+  justify-content: center; /* Center content vertically */
+  border: 2px solid #E27D60;
+  transition: transform 0.3s ease; /* Smooth transition for growth */
+}
+
+.fact-box:hover {
+  transform: scale(1.02); /* Grow slightly on hover */
+}
+
+/* Ensure responsive behavior on small screens */
+@media (max-width: 768px) {
+  .jumbotron-content {
+    flex-direction: column;
+    gap: 10px;
+    width: 90%; /* A bit wider on mobile for better readability */
+  }
+}
