@@ -5,9 +5,12 @@
     <hr>
     <nav class="horizontal-nav">
       <ul>
-        <li *ngIf="!isLoggedIn"><a href="#login">Login</a></li>
-        <li *ngIf="isLoggedIn"><a href="#profile">Profile</a></li>
-        <li><a href="#overview">Overview</a></li>
+        <li *ngIf="!isLoggedIn">
+          <a href="#" (click)="login()" (keydown.enter)="login()" tabindex="0">Login</a>
+        </li>
+        <li *ngIf="isLoggedIn">
+          <a href="#" (click)="popup.open()" (keydown.enter)="popup.open()" tabindex="0">My Profile</a>
+        </li>        <li><a href="#overview">Overview</a></li>
         <li><a href="#metrics">Metrics</a></li>
         <li><a href="#suggestions">Suggestions</a></li>
         <li><a href="#resources">Resources</a></li>
@@ -15,3 +18,5 @@
     </nav>
   </div>
 </header>
+
+<app-user-profile #popup></app-user-profile>
