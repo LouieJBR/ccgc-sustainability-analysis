@@ -1,1 +1,7 @@
-<p>user-profile works!</p>
+<div class="overlay" *ngIf="isVisible" (click)="close()">
+  <div class="popup" (click)="$event.stopPropagation()">
+    <h2>Popup Title</h2>
+    <p>This is a popup message!</p>
+    <button (click)="close()">Close</button>
+  </div>
+</div>
