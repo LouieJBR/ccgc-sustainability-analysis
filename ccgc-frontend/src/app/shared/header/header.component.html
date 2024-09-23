@@ -6,10 +6,8 @@
     <nav class="horizontal-nav">
 <!--      Add Ngif to change from 'login' to username and open menu on click 'profile' or, 'log out' if authenticated-->
       <ul>
-        <li><a href="#login">Login</a></li>
-      </ul>
-      <br>
-      <ul>
+        <li *ngIf="!isLoggedIn"><a href="#login">Login</a></li>
+        <li *ngIf="isLoggedIn"><a href="#profile">Profile</a></li>
         <li><a href="#overview">Overview</a></li>
         <li><a href="#metrics">Metrics</a></li>
         <li><a href="#suggestions">Suggestions</a></li>
