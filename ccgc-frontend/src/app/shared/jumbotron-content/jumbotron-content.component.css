@@ -28,6 +28,11 @@
   flex-direction: column; /* Arrange children in a column */
   justify-content: center; /* Center content vertically */
   border: 2px solid #E27D60;
+  transition: transform 0.3s ease; /* Smooth transition for growth */
+}
+
+.fact-box:hover {
+  transform: scale(1.02); /* Grow slightly on hover */
 }
 
 /* Ensure responsive behavior on small screens */
