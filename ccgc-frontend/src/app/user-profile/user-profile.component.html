@@ -1,7 +1,14 @@
 <div class="overlay" *ngIf="isVisible" (click)="close()">
-  <div class="popup" (click)="$event.stopPropagation()">
-    <h2>Popup Title</h2>
-    <p>This is a popup message!</p>
-    <button (click)="close()">Close</button>
+  <div (click)="$event.stopPropagation()">
+  <section class="user-profile">
+    <h2>User Profile</h2>
+    <div class="profile-info">
+      <p><strong>Name: </strong> <span id="username">{{ user?.name }}</span></p>
+      <p><strong>Email: </strong> <span id="email">{{user?.email}}</span></p>
+    </div>
+    <a href="/logout" class="logout-button">Log Out</a>
+    <hr>
+    <a href="#" (click)="close()" class="close-button">Close</a>
+  </section>
   </div>
 </div>

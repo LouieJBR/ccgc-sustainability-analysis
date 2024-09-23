@@ -9,5 +9,3 @@ resource usage, thereby reducing the carbon footprint of software applications.
 The analyzer will profile code to measure its resource consumption, such as CPU, memory, and network usage, 
 and provide recommendations to refactor code for better energy efficiency. The tool can be used by developers 
 during the coding process to improve the efficiency of their applications.
-
-

@@ -1,6 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {DOCUMENT, NgIf} from "@angular/common";
-import {AuthService} from "@auth0/auth0-angular";
+import {AuthService, User} from "@auth0/auth0-angular";
 
 @Component({
   selector: 'app-user-profile',
@@ -13,9 +13,9 @@ import {AuthService} from "@auth0/auth0-angular";
 })
 export class UserProfileComponent {
   isLoggedIn = false;
-  userName: string | null = null;
   isVisible = false;
 
+  user: User | null | undefined = User
   open() {
     this.isVisible = true;
   }
@@ -31,14 +31,11 @@ export class UserProfileComponent {
 
       if (isAuthenticated) {
         this.auth.user$.subscribe(user => {
-          this.userName = user?.name || null;
-          console.log(user)
+          this.user = user;
         });
       } else {
-        this.userName = null; // Reset when logged out
+        this.user = null; // Reset when logged out
       }
     });
   }
-
-
 }
