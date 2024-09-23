@@ -5,8 +5,9 @@
     <hr>
     <nav class="horizontal-nav">
       <ul>
-        <li *ngIf="!isLoggedIn"><a href="#login">Login</a></li>
-        <li *ngIf="isLoggedIn"><a href="#profile">Profile</a></li>
+        <li *ngIf="!isLoggedIn">
+          <a href="#" (click)="login()" (keydown.enter)="login()" tabindex="0">Login</a>        </li>
+        <li *ngIf="isLoggedIn"><a href="/profile"> {{userName}} </a></li>
         <li><a href="#overview">Overview</a></li>
         <li><a href="#metrics">Metrics</a></li>
         <li><a href="#suggestions">Suggestions</a></li>
