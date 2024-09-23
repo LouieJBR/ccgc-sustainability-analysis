@@ -4,7 +4,6 @@
     <p>Your journey to sustainable coding practices starts here.</p>
     <hr>
     <nav class="horizontal-nav">
-<!--      Add Ngif to change from 'login' to username and open menu on click 'profile' or, 'log out' if authenticated-->
       <ul>
         <li *ngIf="!isLoggedIn"><a href="#login">Login</a></li>
         <li *ngIf="isLoggedIn"><a href="#profile">Profile</a></li>
