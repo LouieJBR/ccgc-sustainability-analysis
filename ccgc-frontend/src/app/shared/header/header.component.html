@@ -1,8 +1,17 @@
 <header>
-<div class="ccgc-header">
-  <h2>Welcome to Clean Code, Green Code!</h2>
-  <p>Your journey to sustainable coding practices starts here.</p>
-  <hr>
-  <button routerLink="/some-other-page">Learn More</button>
-</div>
+  <div class="ccgc-header">
+    <h1>Clean Code, Green Code!</h1>
+    <p>Your journey to sustainable coding practices starts here.</p>
+    <hr>
+    <nav class="horizontal-nav">
+      <ul>
+        <li *ngIf="!isLoggedIn"><a href="#login">Login</a></li>
+        <li *ngIf="isLoggedIn"><a href="#profile">Profile</a></li>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#metrics">Metrics</a></li>
+        <li><a href="#suggestions">Suggestions</a></li>
+        <li><a href="#resources">Resources</a></li>
+      </ul>
+    </nav>
+  </div>
 </header>

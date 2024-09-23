@@ -1,16 +1,92 @@
+/* Header Styles */
 .ccgc-header {
+  background-color: #2F4F4F; /* Deep Forest Green */
+  color: #F9F9F9; /* Off-White */
+  padding: 20px;
   text-align: center;
-  margin: 50px;
+  border-bottom: 2px solid #E27D60; /* Terracotta border for separation */
 }
 
-hr {
-  color: #31493C;
-}
-h2 {
-  font-size: 2em;
-  color: #4CAF50; /* Green */
+.ccgc-header h1, .ccgc-header p {
+  margin: 0; /* Remove margins for a cleaner layout */
 }
 
-p {
-  font-size: 1.2em;
+.ccgc-header h1 {
+  margin-bottom: 10px;
+  position: relative; /* Required for the shimmer effect */
+  overflow: hidden; /* Hide overflow */
+}
+
+.ccgc-header h1::before {
+  content: ''; /* Creates a pseudo-element for the shimmer */
+  position: absolute;
+  left: -100%; /* Start off-screen */
+  top: 0;
+  width: 100%; /* Cover the whole element */
+  height: 100%;
+  background: linear-gradient(90deg, transparent, #E27D60, transparent); /* Gradient for shimmer */
+  transition: left 0.5s ease-in-out; /* Smooth transition */
+  pointer-events: none; /* Allow clicks to pass through */
+  z-index: 0; /* Below text */
+}
+
+.ccgc-header h1:hover {
+  color: #4CAF50; /* Change to green on hover */
+}
+
+.ccgc-header h1:hover::before {
+  left: 100%; /* Move shimmer to the right on hover */
+}
+
+.ccgc-header p {
+  margin-bottom: 20px;
+}
+
+/* Horizontal Line */
+.ccgc-header hr {
+  border: 1px solid #F9F9F9; /* Light border for contrast */
+  margin: 20px 0; /* Space around the line */
+}
+
+/* Button Styles */
+.btn {
+  background-color: #3C91E6; /* Ocean Blue */
+  color: #F9F9F9; /* Off-White */
+  border: none; /* Remove default border */
+  padding: 10px 20px; /* Padding for button size */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s; /* Smooth background transition */
+}
+
+.btn:hover {
+  background-color: #E27D60; /* Terracotta on hover */
+}
+
+/* Navigation Styles */
+.horizontal-nav {
+  text-align: center; /* Center align the nav */
+  margin-top: 15px; /* Add some spacing above the nav */
+}
+
+.horizontal-nav ul {
+  list-style-type: none; /* Remove default list styles */
+  padding: 0; /* Remove padding */
+  display: inline-flex; /* Use inline-flex to make it horizontal */
+}
+
+.horizontal-nav li {
+  margin: 0 15px; /* Space between menu items */
+}
+
+.horizontal-nav a {
+  color: #F9F9F9; /* Off-White */
+  text-decoration: none; /* Remove underline */
+  padding: 10px 15px; /* Padding for clickable area */
+  border-radius: 5px; /* Rounded corners */
+  transition: background-color 0.3s; /* Smooth background transition */
+}
+
+.horizontal-nav a:hover {
+  background-color: #E27D60; /* Change background on hover */
 }

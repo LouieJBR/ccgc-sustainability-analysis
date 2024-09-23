@@ -1,7 +1,69 @@
-<mat-tab-group class ="landing-page">
-  <mat-tab label="First"></mat-tab>
-  <mat-tab label="Second"> Content 2 </mat-tab>
-  <mat-tab label="Third"> Content 3 </mat-tab>
-</mat-tab-group>
-
-
+<app-jumbotron-content></app-jumbotron-content>
+<body>
+<main>
+    <section id="overview" class="overview">
+      <h3>Overview</h3>
+      <p>Track your code’s sustainability metrics at a glance.</p>
+      <div class="metrics">
+        <div class="metric-item">
+          <h4>Code Efficiency</h4>
+          <p>85%</p>
+        </div>
+        <div class="metric-item">
+          <h4>Carbon Footprint</h4>
+          <p>Low</p>
+        </div>
+        <div class="metric-item">
+          <h4>Code Reusability</h4>
+          <p>90%</p>
+        </div>
+      </div>
+    </section>
+  <section id="metrics" class="metrics-section">
+    <h3>Detailed Metrics</h3>
+    <table>
+      <thead>
+      <tr>
+        <th>Metric</th>
+        <th>Value</th>
+        <th>Recommendation</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>Code Complexity</td>
+        <td>High</td>
+        <td>Refactor to reduce complexity.</td>
+      </tr>
+      <tr>
+        <td>Test Coverage</td>
+        <td>75%</td>
+        <td>Increase coverage to 85%.</td>
+      </tr>
+      <tr>
+        <td>Dependencies</td>
+        <td>5</td>
+        <td>Consider removing unused dependencies.</td>
+      </tr>
+      </tbody>
+    </table>
+  </section>
+    <section id="suggestions" class="suggestions-section">
+      <h3>Suggestions for Improvement</h3>
+      <ul>
+        <li>Implement code reviews to ensure sustainability practices.</li>
+        <li>Utilize automated tools for code quality analysis.</li>
+        <li>Encourage team members to participate in sustainability training.</li>
+      </ul>
+    </section>
+    <section id="resources" class="resources-section">
+      <h3>Resources</h3>
+      <ul>
+        <li><a href="https://example.com/resource1">Sustainable Coding Practices</a></li>
+        <li><a href="https://example.com/resource2">Code Quality Tools</a></li>
+        <li><a href="https://example.com/resource3">Training on Sustainable Development</a></li>
+      </ul>
+    </section>
+</main>
+<app-footer></app-footer>
+</body>

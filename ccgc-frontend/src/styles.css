@@ -1,12 +1,66 @@
-/* styles.css */
-body {
-  font-family: 'Atkinson Hyperlegible', sans-serif;
-}
-
 /* If you want to apply it to specific elements */
 h1, h2, h3, p {
   font-family: 'Atkinson Hyperlegible', sans-serif;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body {
+  scroll-behavior: smooth;
+  height: 100%; }
+/* General Body Styles */
+body {
+  background-color: #D4C1A0; /* Warm Sand */
+  font-family: 'Atkinson Hyperlegible', sans-serif;
+
+  color: #333333; /* Dark Charcoal */
+  margin: 0;
+  padding: 0;
+}
+
+
+
+/* Section Styles */
+.section {
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 15px;
+  border: 2px solid #31493C; /* Match the border color */
+  background-color: #F9F9F9; /* Light background for sections */
+  width: 80%; /* Wider sections */
+}
+
+/* Flexbox Utilities */
+.flex {
+  display: flex;
+}
+
+.justify-space-between {
+  justify-content: space-between;
+}
+
+.metric-item {
+  flex: 1;
+  margin: 0 10px;
+  text-align: center;
+  border: 1px solid #31493C;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+/* Responsive Styles */
+@media (max-width: 600px) {
+  .ccgc-header {
+    padding: 15px; /* Adjust padding on smaller screens */
+  }
+
+  .ccgc-header h2 {
+    font-size: 1.5em; /* Responsive heading size */
+  }
+
+  .ccgc-header p {
+    font-size: 1em; /* Responsive paragraph size */
+  }
+
+  .section {
+    width: 95%; /* Make sections wider on small screens */
+  }
+}
