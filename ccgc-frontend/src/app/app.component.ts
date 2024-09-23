@@ -10,10 +10,9 @@ import {JumbotronContentComponent} from "./shared/jumbotron-content/jumbotron-co
   standalone: true,
   imports: [RouterOutlet, LandingPageComponent, HeaderComponent, FooterComponent, JumbotronContentComponent], // Import RouterOutlet and your components directly
   template: `
-    <router-outlet></router-outlet> <!-- Router outlet to render routed components -->
-    <app-header></app-header>
+    <router-outlet></router-outlet>
+    <app-header></app-header><!-- Router outlet to render routed components -->
     <app-landing-page></app-landing-page>
-    <app-footer></app-footer>
   `,
   styleUrls: ['./app.component.css']
 })
