@@ -1,4 +1,4 @@
-# Clean Code, Green Code: Sustainability profiler'
+# Clean Code, Green Code: Sustainability profiler
 
 ## Overview
 
