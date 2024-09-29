@@ -1,7 +1,9 @@
-import {Component, Inject} from '@angular/core';
+import {Component, inject, Inject} from '@angular/core';
 import {DOCUMENT, NgIf} from "@angular/common";
 import {AuthService} from "@auth0/auth0-angular";
 import {UserProfileComponent} from "../../user-profile/user-profile.component";
+import {AppComponent} from "../../app.component";
+import {UserService} from "../../service/user-service";
 
 @Component({
   selector: 'app-header',
@@ -12,13 +14,18 @@ import {UserProfileComponent} from "../../user-profile/user-profile.component";
 })
 export class HeaderComponent {
   isLoggedIn = false;
-  constructor(@Inject(DOCUMENT) public document: Document, public auth: AuthService) {
+  constructor(@Inject(DOCUMENT) public document: Document, public auth: AuthService, private userService: UserService)
+  {
     this.auth.isAuthenticated$.subscribe(isAuthenticated => {
       this.isLoggedIn = isAuthenticated;
+      console.log(this.auth)
+
     });
   }
 
   //fires onclick of login button
   login() {
     this.auth.loginWithRedirect();
-  }}
+    this.userService.emitUserLoggedIn(); // Emit the user logged in event
+}
+}

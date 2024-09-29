@@ -31,6 +31,7 @@ export class UserProfileComponent {
 
       if (isAuthenticated) {
         this.auth.user$.subscribe(user => {
+          console.log(user)
           this.user = user;
         });
       } else {
