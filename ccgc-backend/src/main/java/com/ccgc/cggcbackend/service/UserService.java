@@ -5,21 +5,29 @@ import com.ccgc.cggcbackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    public User findByAuth0Id(String auth0Id) {
-        return userRepository.findByAuth0UserId(auth0Id);
+    @Autowired  // Optional with single constructor
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
-    public User createUser(User auth0User) {
-        User user = new User();
-        user.setAuth0UserId(auth0User.getAuth0UserId());
-        user.setEmail(auth0User.getEmail());
+
+    public User createUser(String username, String email) {
+        User user = new User(username, email);
         return userRepository.save(user);
     }
 
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 }

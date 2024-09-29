@@ -1,39 +1,38 @@
 package com.ccgc.cggcbackend.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 
+@Setter
+@Getter
 @Entity
-@Table(name = "users")
+@Table(name = "local_users")
 public class User {
 
+    // Getters and Setters
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "auth0_user_id", unique = true, nullable = false)
-    private String auth0UserId;
+    @Column(nullable = false)
+    private String username;
 
-    @Column(name = "email", unique = true, nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    // Constructors, Getters, Setters
-    public User() {
-        this.createdAt = LocalDateTime.now();
+    // Constructors
+    public User() {}
+
+    public User(String username, String email) {
+        this.username = username;
+        this.email = email;
+        this.createdAt = LocalDateTime.now(); // set default time
     }
 
-    // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public String getAuth0UserId() { return auth0UserId; }
-    public void setAuth0UserId(String auth0UserId) { this.auth0UserId = auth0UserId; }
-
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
-
-    public LocalDateTime getCreatedAt() { return createdAt; }
 }
