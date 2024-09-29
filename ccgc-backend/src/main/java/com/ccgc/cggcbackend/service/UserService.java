@@ -12,7 +12,7 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    @Autowired  // Optional with single constructor
+    @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }

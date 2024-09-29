@@ -14,8 +14,7 @@ public class UserController {
 
     private final UserService userService;
 
-    // Constructor Injection
-    @Autowired  // This is optional in Spring 4.3+ if the class has only one constructor
+    @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
