@@ -8,6 +8,9 @@ The aim of this program is to promote green coding practices by minimizing resou
 
 The analyzer will profile code to measure its resource consumption, such as CPU, memory, and network usage, and provide recommendations to refactor code for better energy efficiency. The tool can be used by developers during the coding process to improve the efficiency of their applications.
 
+## Key Links
+Kanban: https://trello.com/b/LFqyXVXb/ccgc-delivery
+
 ## Run Locally
 
 Clone the project
