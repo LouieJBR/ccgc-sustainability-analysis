@@ -48,7 +48,43 @@
       </tbody>
     </table>
   </section>
-    <section id="suggestions" class="suggestions-section">
+  <section id="code-profiler" class="code-profiler-section">
+    <h3>Try the Code Profiler</h3>
+
+    <form (ngSubmit)="submitCode()" #profilerForm="ngForm">
+      <label for="language">Language:</label>
+      <select id="language" [(ngModel)]="language" name="language" required>
+        <option value="python">Python</option>
+        <option value="js">JavaScript</option>
+        <option value="java">Java</option>
+      </select>
+
+      <label for="fileNameHint">File Name:</label>
+      <input id="fileNameHint" type="text" [(ngModel)]="fileNameHint" name="fileNameHint" required />
+
+      <label for="code">Code:</label>
+      <textarea id="code" [(ngModel)]="code" name="code" rows="6" required></textarea>
+
+      <button type="submit">Analyze</button>
+    </form>
+
+    <div *ngIf="result">
+      <h4>Results:</h4>
+      <p><strong>CPU Time:</strong> {{ result?.cpuTimeMs }} ms</p>
+      <p><strong>Memory Used:</strong> {{ result?.memoryUsedMb }} MB</p>
+      <p><strong>Estimated Energy:</strong> {{ result?.estimatedEnergyJoules }} J</p>
+      <p><strong>Green Score:</strong> {{ result?.greenScore }}</p>
+      <p><strong>Carbon Intensity:</strong> {{ result?.carbonIntensity }}</p>
+      <div>
+        <strong>Suggestions:</strong>
+        <ul>
+          <li *ngFor="let s of result.suggestions">{{ s }}</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="suggestions" class="suggestions-section">
       <h3>Suggestions for Improvement</h3>
       <ul>
         <li>Implement code reviews to ensure sustainability practices.</li>
