@@ -1,0 +1,31 @@
+<aside class="sidebar">
+  <section id="code-profiler" class="code-profiler-section">
+    <h3>Try the Code Profiler</h3>
+
+    <form (ngSubmit)="submitCode()" #profilerForm="ngForm" class="code-form">
+      <div class="form-row">
+        <div class="input-group">
+          <label for="language">Language:</label>
+          <select id="language" [(ngModel)]="language" name="language" required>
+            <option value="python">Python</option>
+            <option value="js">JavaScript</option>
+            <option value="java">Java</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label for="fileNameHint">File Name:</label>
+          <input id="fileNameHint" type="text" [(ngModel)]="fileNameHint" name="fileNameHint" required />
+        </div>
+      </div>
+
+      <!-- ✅ Centered textarea below -->
+      <div class="textarea-container">
+        <label for="code">Code:</label>
+        <textarea id="code" [(ngModel)]="code" name="code" rows="6" required></textarea>
+      </div>
+
+      <button type="submit" class="analyze-btn">Analyze</button>
+    </form>
+  </section>
+</aside>

@@ -7,23 +7,34 @@
     <div class="metrics">
       <div class="metric-item">
         <h4>Code Efficiency</h4>
-        <p>{{ latestResult?.greenScore || 'N/A' }}%</p>
+        <p>{{ selectedResult?.greenScore || 'N/A' }}%</p>
       </div>
       <div class="metric-item">
         <h4>Carbon Footprint</h4>
-        <p>{{ getCarbonFootprintRating(latestResult?.carbonIntensity) }}</p>
+        <p>{{ getCarbonFootprintRating(selectedResult?.carbonIntensity) }}</p>
       </div>
       <div class="metric-item">
         <h4>Resource Usage</h4>
-        <p>{{ getCpuLoadRating(latestResult?.cpuTimeMs) }}</p>
+        <p>{{ getCpuLoadRating(selectedResult?.cpuTimeMs) }}</p>
       </div>
     </div>
   </section>
 
   <section id="metrics" class="metrics-section">
     <h3>Detailed Metrics</h3>
+    <div *ngIf="allResults.length > 1" class="dropdown-wrapper">
+      <label for="runSelector">Select a Run:</label>
+      <select id="runSelector" (change)="onResultSelected($event)">
+        <option *ngFor="let run of allResults; let i = index" [value]="i">
+          {{ run.createdAt | date: 'short' }}
+        </option>
+      </select>
+      <a href="#" (click)="deleteSelectedResult($event)" class="delete-link" *ngIf="selectedResult">
+        Delete Run
+      </a>
+    </div>
 
-    <ng-container *ngIf="latestResult; else noMetrics">
+    <ng-container *ngIf="selectedResult; else noMetrics">
       <div class="metrics-table">
       <table>
         <thead>
@@ -36,47 +47,47 @@
         <tbody>
         <tr>
           <td>CPU Time (ms)</td>
-          <td>{{ latestResult!.cpuTimeMs }}</td>
+          <td>{{ selectedResult!.cpuTimeMs }}</td>
           <td>Time taken by the CPU to run the code.</td>
         </tr>
         <tr>
           <td>Memory Used (MB)</td>
-          <td>{{ latestResult!.memoryUsedMb }}</td>
+          <td>{{ selectedResult!.memoryUsedMb }}</td>
           <td>Amount of memory consumed during execution.</td>
         </tr>
         <tr>
           <td>Estimated Energy (J)</td>
-          <td>{{ latestResult!.estimatedEnergyJoules | number: '1.5-5' }}</td>
+          <td>{{ selectedResult!.estimatedEnergyJoules | number: '1.5-5' }}</td>
           <td>Estimated energy used based on CPU and memory usage.</td>
         </tr>
         <tr>
           <td>Green Score</td>
-          <td>{{ latestResult!.greenScore }}</td>
+          <td>{{ selectedResult!.greenScore }}</td>
           <td>Efficiency score from 0–100 based on resource use.</td>
         </tr>
         <tr>
           <td>Carbon Intensity</td>
-          <td>{{ latestResult!.carbonIntensity }}</td>
+          <td>{{ selectedResult!.carbonIntensity }}</td>
           <td>CO₂ equivalent per kWh in the execution region.</td>
         </tr>
         <tr>
           <td>Execution Region</td>
-          <td>{{ latestResult!.executionRegion }}</td>
+          <td>{{ selectedResult!.executionRegion }}</td>
           <td>Geographic area where code was run.</td>
         </tr>
         <tr>
           <td>Exit Code</td>
-          <td>{{ latestResult!.exitCode }}</td>
+          <td>{{ selectedResult!.exitCode }}</td>
           <td>Indicates whether the program ran successfully.</td>
         </tr>
         <tr>
           <td>Created At</td>
-          <td>{{ latestResult!.createdAt | date: 'short' }}</td>
+          <td>{{ selectedResult!.createdAt | date: 'short' }}</td>
           <td>Date and time when this result was recorded.</td>
         </tr>
         </tbody>
       </table>
-      </div> 
+      </div>
     </ng-container>
 
     <ng-template #noMetrics>
@@ -87,8 +98,8 @@
 
   <section id="suggestions" class="suggestions-section">
     <h3>Suggestions for Improvement</h3>
-    <ul *ngIf="latestResult && latestResult.suggestions && latestResult.suggestions.length > 0; else noSuggestions">
-      <li *ngFor="let suggestion of latestResult?.suggestions">{{ suggestion }}</li>
+    <ul *ngIf="selectedResult && selectedResult.suggestions && selectedResult.suggestions.length > 0; else noSuggestions">
+      <li *ngFor="let suggestion of selectedResult?.suggestions">{{ suggestion }}</li>
     </ul>
     <ng-template #noSuggestions>
       <p>No suggestions available right now.</p>

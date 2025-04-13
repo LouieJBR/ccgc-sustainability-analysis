@@ -20,6 +20,8 @@ import {JumbotronContentComponent} from "../shared/jumbotron-content/jumbotron-c
 })
 export class LandingPageComponent implements OnInit {
   latestResult: ProfilingResult | null = null;
+  allResults: ProfilingResult[] = [];
+  selectedResult: ProfilingResult | null = null;
 
   private http = inject(HttpClient);
   private auth = inject(AuthService);
@@ -33,7 +35,9 @@ export class LandingPageComponent implements OnInit {
       this.http.get<ProfilingResult[]>('http://localhost:8080/api/analyze/user', { headers })
         .subscribe({
           next: (results) => {
+            this.allResults = results;
             this.latestResult = results.length > 0 ? results[results.length - 1] : null;
+            this.selectedResult = this.latestResult; // ✅ Default to latest
           },
           error: err => {
             console.error('Failed to fetch profiling results', err);
@@ -41,6 +45,7 @@ export class LandingPageComponent implements OnInit {
         });
     });
   }
+
   getCarbonFootprintRating(intensity?: number): string {
     if (intensity == null) return 'N/A';
     if (intensity <= 150) return 'Low';
@@ -54,4 +59,43 @@ export class LandingPageComponent implements OnInit {
     if (cpuTimeMs < 1500) return 'Moderate';
     return 'High';
   }
+
+  onResultSelected(event: Event): void {
+    const index = (event.target as HTMLSelectElement).value;
+    this.selectedResult = this.allResults[+index];
+  }
+
+  deleteSelectedResult(event: Event): void {
+    event.preventDefault();
+
+    if (!this.selectedResult || !this.selectedResult.id) {
+      alert('No run selected to delete.');
+      return;
+    }
+
+    this.auth.getAccessTokenSilently().subscribe(token => {
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+      });
+
+      this.http.delete(`http://localhost:8080/api/analyze/${this.selectedResult!.id}`, { headers })
+        .subscribe({
+          next: () => {
+            this.allResults = this.allResults.filter(r => r.id !== this.selectedResult!.id);
+            this.selectedResult = this.allResults.length > 0 ? this.allResults[this.allResults.length - 1] : null;
+            alert('Run deleted successfully.');
+          },
+          error: err => {
+            if (err.status !== 404 || err.status !== 200) {
+              console.error('Failed to delete run:', err);
+              alert('Failed to delete run. See console for details.');
+            } else {
+              console.warn('Result not found. It may have already been deleted.');
+            }
+          }
+
+        });
+    });
+  }
+
 }

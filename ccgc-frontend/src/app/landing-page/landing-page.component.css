@@ -57,7 +57,10 @@ table {
   transform: scale(1.05); /* Grow slightly on hover */
 }
 
-.metrics-section {
+.dropdown-wrapper {
+  margin-bottom: 1rem;
+  display: flex;
   align-items: center;
-  text-align: center;
+  gap: 0.5rem;
 }
+

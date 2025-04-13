@@ -6,19 +6,15 @@ import {FormsModule} from "@angular/forms";
 
 
 @Component({
-  selector: 'app-news-carousel',
-  templateUrl: './news-carousel.html',
+  selector: 'app-snippet-profiler',
+  templateUrl: './snippet-profiler.html',
   standalone: true,
   imports: [
     FormsModule
   ],
-  styles: [`
-    .carousel-container {
-      text-align: center;
-    }
-  `]
+  styleUrls: ['snippet-profiler.css']
 })
-export class NewsCarouselComponent {
+export class SnippetProfilerComponent {
   code = '';
   language = 'python';
   fileNameHint = 'snippet';
