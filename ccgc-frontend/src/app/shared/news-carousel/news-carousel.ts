@@ -1,14 +1,17 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
+import {ProfilingResult} from "../../models/profiling-result.model";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {AuthService} from "@auth0/auth0-angular";
+import {FormsModule} from "@angular/forms";
+
 
 @Component({
   selector: 'app-news-carousel',
-  template: `
-    <div class="carousel-container">
-      <h3>{{ newsItems[currentIndex].title }}</h3>
-      <p>{{ newsItems[currentIndex].content }}</p>
-    </div>
-  `,
+  templateUrl: './news-carousel.html',
   standalone: true,
+  imports: [
+    FormsModule
+  ],
   styles: [`
     .carousel-container {
       text-align: center;
@@ -16,21 +19,36 @@ import {Component} from '@angular/core';
   `]
 })
 export class NewsCarouselComponent {
-  newsItems = [
-    { title: 'Sustainability News 1', content: 'Fact 1 about sustainability.' },
-    { title: 'Sustainability News 2', content: 'Fact 2 about sustainability.' },
-    { title: 'Sustainability News 3', content: 'Fact 3 about sustainability.' }
-  ];
+  code = '';
+  language = 'python';
+  fileNameHint = 'snippet';
+  result: ProfilingResult | null = null;
 
-  currentIndex = 0;
+  private http = inject(HttpClient);
+  private auth = inject(AuthService);
 
-  constructor() {
-    this.startAutoChange();
-  }
+  submitCode() {
+    this.auth.getAccessTokenSilently().subscribe(token => {
+      console.log('Access token:', token); // Add this
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      });
 
-  startAutoChange() {
-    setInterval(() => {
-      this.currentIndex = (this.currentIndex + 1) % this.newsItems.length;
-    }, 5000); // Change every 5 seconds
+      const payload = {
+        code: this.code,
+        language: this.language,
+        fileNameHint: this.fileNameHint
+      };
+
+      this.http.post<ProfilingResult>('http://localhost:8080/api/analyze', payload, { headers })
+        .subscribe({
+          next: res => this.result = res,
+          error: err => {
+            console.error('Error:', err);
+            alert('Code analysis failed. See console.');
+          }
+        });
+    });
   }
 }

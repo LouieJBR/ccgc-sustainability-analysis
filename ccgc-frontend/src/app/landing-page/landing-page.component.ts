@@ -1,54 +1,57 @@
-import {Component, inject} from '@angular/core';
-
-import {JumbotronContentComponent} from "../shared/jumbotron-content/jumbotron-content.component";
+import { Component, inject, OnInit } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { AuthService } from '@auth0/auth0-angular';
+import { ProfilingResult } from '../models/profiling-result.model';
 import {FooterComponent} from "../shared/footer/footer.component";
-import {ProfilingResult} from "../models/profiling-result.model";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {AuthService} from "@auth0/auth0-angular";
-import {FormsModule} from "@angular/forms";
+import {CommonModule, DatePipe} from "@angular/common";
+import {JumbotronContentComponent} from "../shared/jumbotron-content/jumbotron-content.component"; // Make sure this exists
 
 @Component({
   selector: 'app-landing-page',
   standalone: true,
   templateUrl: './landing-page.component.html',
+  styleUrls: ['./landing-page.component.css'],
   imports: [
-    JumbotronContentComponent,
+    CommonModule,
     FooterComponent,
-    FormsModule
-  ],
-  styleUrls: ['./landing-page.component.css'] // Fixed 'styleUrl' to 'styleUrls'
+    DatePipe,
+    JumbotronContentComponent
+  ]
 })
-export class LandingPageComponent {
-  code = '';
-  language = 'python';
-  fileNameHint = 'snippet';
-  result: ProfilingResult | null = null;
+export class LandingPageComponent implements OnInit {
+  latestResult: ProfilingResult | null = null;
 
   private http = inject(HttpClient);
   private auth = inject(AuthService);
 
-  submitCode() {
+  ngOnInit(): void {
     this.auth.getAccessTokenSilently().subscribe(token => {
-      console.log('Access token:', token); // Add this
       const headers = new HttpHeaders({
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
+        'Authorization': `Bearer ${token}`
       });
 
-      const payload = {
-        code: this.code,
-        language: this.language,
-        fileNameHint: this.fileNameHint
-      };
-
-      this.http.post<ProfilingResult>('http://localhost:8080/api/analyze', payload, { headers })
+      this.http.get<ProfilingResult[]>('http://localhost:8080/api/analyze/user', { headers })
         .subscribe({
-          next: res => this.result = res,
+          next: (results) => {
+            this.latestResult = results.length > 0 ? results[results.length - 1] : null;
+          },
           error: err => {
-            console.error('Error:', err);
-            alert('Code analysis failed. See console.');
+            console.error('Failed to fetch profiling results', err);
           }
         });
     });
+  }
+  getCarbonFootprintRating(intensity?: number): string {
+    if (intensity == null) return 'N/A';
+    if (intensity <= 150) return 'Low';
+    if (intensity <= 400) return 'Moderate';
+    return 'High';
+  }
+
+  getCpuLoadRating(cpuTimeMs?: number): string {
+    if (cpuTimeMs == null) return 'N/A';
+    if (cpuTimeMs < 500) return 'Low';
+    if (cpuTimeMs < 1500) return 'Moderate';
+    return 'High';
   }
 }

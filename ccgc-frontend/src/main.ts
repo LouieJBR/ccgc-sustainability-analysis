@@ -12,7 +12,9 @@ bootstrapApplication(AppComponent, {
       authorizationParams: {
         redirect_uri: window.location.origin,
         audience: 'https://ccgc-api', // <-- must match backend expected audience
-      }
+      },
+      cacheLocation: 'localstorage',
+      useRefreshTokens: true,
     }),
   ]
 }).catch((err) => console.error(err));
