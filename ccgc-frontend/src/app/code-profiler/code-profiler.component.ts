@@ -45,4 +45,17 @@ export class CodeProfilerComponent {
         });
     });
   }
+
+  handleFileUpload(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (!input.files || input.files.length === 0) return;
+
+    const file = input.files[0];
+    this.fileNameHint = file.name.split('.')[0];  // Optional
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.code = reader.result as string;
+    };
+    reader.readAsText(file);
+  }
 }
