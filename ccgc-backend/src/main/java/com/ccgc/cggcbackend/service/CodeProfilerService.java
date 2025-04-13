@@ -2,6 +2,7 @@ package com.ccgc.cggcbackend.service;
 
 import com.ccgc.cggcbackend.model.ProfilingResult;
 import com.ccgc.cggcbackend.request.CodeSubmissionRequest;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -12,6 +13,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import org.springframework.beans.factory.annotation.Value;
+
 
 @Service
 public class CodeProfilerService {
@@ -34,7 +37,8 @@ public class CodeProfilerService {
         int greenScore = calculateGreenScore(cpuTimeMs, memoryUsedMb, estimatedEnergy);
         List<String> suggestions = generateSuggestions(request.getCode(), cpuTimeMs, memoryUsedMb);
 
-        String region = getExecutionRegion();
+//        String region = getExecutionRegion();
+        String region = "GB"; // Use zone code like "GB", "DE", "FR", "US-NY"
         double carbonIntensity = getCarbonIntensityFromAPI(region);
 
         return new ProfilingResult(cpuTimeMs, memoryUsedMb, estimatedEnergy, process.exitValue(),
@@ -49,7 +53,7 @@ public class CodeProfilerService {
             default -> throw new RuntimeException("Unsupported language");
         };
         try {
-            Path tempFile = Files.createTempFile(fileNameHint != null ? fileNameHint : "temp", extension);
+            Path tempFile = Path.of(System.getProperty("java.io.tmpdir"), fileNameHint + extension);
             Files.writeString(tempFile, code);
             return tempFile.toAbsolutePath().toString();
         } catch (IOException e) {
@@ -65,7 +69,9 @@ public class CodeProfilerService {
             case "java" -> {
                 String className = new File(filePath).getName().replace(".java", "");
                 try {
-                    Process compile = new ProcessBuilder("javac", filePath).start();
+                    Process compile = new ProcessBuilder("javac", filePath)
+                            .inheritIO() // ✅ This will show compile errors in your console
+                            .start();
                     compile.waitFor();
                 } catch (Exception e) {
                     throw new RuntimeException("Compilation failed: " + e.getMessage());
@@ -79,12 +85,22 @@ public class CodeProfilerService {
             ProcessBuilder builder = new ProcessBuilder(command);
             builder.redirectErrorStream(true);
             Process process = builder.start();
+
+            // ✅ Capture output for debugging
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    System.out.println("[OUTPUT] " + line);
+                }
+            }
+
             process.waitFor(10, TimeUnit.SECONDS);
             return process;
         } catch (Exception e) {
             throw new RuntimeException("Code execution failed", e);
         }
     }
+
 
     private long getUsedMemory() {
         Runtime runtime = Runtime.getRuntime();
@@ -95,7 +111,7 @@ public class CodeProfilerService {
         return 0.0001 * cpuMs + 0.00005 * memMb;
     }
 
-    private int calculateGreenScore(double cpuTimeMs, double memoryUsedMb, double energyJoules) {
+    int calculateGreenScore(double cpuTimeMs, double memoryUsedMb, double energyJoules) {
         double maxCpuTime = 2000;
         double maxMemory = 500;
         double maxEnergy = 10.0;
@@ -112,35 +128,65 @@ public class CodeProfilerService {
         return Math.min(1.0, value / max);
     }
 
-    private List<String> generateSuggestions(String code, double cpuMs, double memMb) {
+    List<String> generateSuggestions(String code, double cpuMs, double memMb) {
         List<String> tips = new ArrayList<>();
+
         if (cpuMs > 1000) tips.add("Optimize loops or function calls to reduce CPU time.");
         if (memMb > 200) tips.add("High memory use detected. Use efficient data structures.");
-        if (code.contains("for (") && code.split("for \\(").length > 2) tips.add("Nested loops detected. Consider refactoring.");
-        if (code.contains("sleep(")) tips.add("Avoid unnecessary sleep statements.");
-        if (code.contains(".map(") && code.contains(".filter(")) tips.add("Combine map/filter for efficiency.");
+
+        // Improved logic for multiple languages
+        if ((code.contains("for (") && code.split("for \\(").length > 2) ||
+                (code.contains("for ") && code.contains("in range(") && code.split("for ").length > 2)) {
+            tips.add("Nested loops detected. Consider refactoring.");
+        }
+
+        if (code.contains("sleep(") || code.contains("time.sleep(")) {
+            tips.add("Avoid unnecessary sleep statements.");
+        }
+
+        if (code.contains(".map(") && code.contains(".filter(")) {
+            tips.add("Combine map/filter for efficiency.");
+        }
+
         return tips;
     }
 
-    private String getExecutionRegion() {
-        try {
-            return InetAddress.getLocalHost().getHostName();
-        } catch (UnknownHostException e) {
-            return "unknown";
-        }
-    }
+
+//    private String getExecutionRegion() {
+//        try {
+//            return InetAddress.getLocalHost().getHostName();
+//        } catch (UnknownHostException e) {
+//            return "unknown";
+//        }
+//    }
+
+    @Value("${electricitymap.api.key}")
+    private String electricityMapApiKey;
 
     private double getCarbonIntensityFromAPI(String region) {
         try {
+            String url = "https://api.electricitymap.org/v3/carbon-intensity/latest?zone=" + region;
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("auth-token", "ZcY4ZMGEz2kopq9IOC2K"); // ✅ Correct token header
+
+            HttpEntity<Void> entity = new HttpEntity<>(headers);
             RestTemplate restTemplate = new RestTemplate();
-            String apiUrl = "https://api.electricitymap.org/v3/carbon-intensity?region=" + region;
-            Map<String, Object> response = restTemplate.getForObject(apiUrl, Map.class);
-            if (response != null && response.containsKey("carbonIntensity")) {
-                return Double.parseDouble(response.get("carbonIntensity").toString());
+
+            ResponseEntity<Map> response = restTemplate.exchange(url, HttpMethod.GET, entity, Map.class);
+
+            if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
+                Object intensityValue = response.getBody().get("carbonIntensity");
+
+                if (intensityValue instanceof Number) {
+                    return ((Number) intensityValue).doubleValue();
+                }
             }
         } catch (Exception e) {
             System.err.println("Failed to fetch carbon intensity: " + e.getMessage());
         }
-        return 450.0;
+
+        return 450.0; // fallback value
     }
+
 }
