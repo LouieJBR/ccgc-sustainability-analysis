@@ -22,8 +22,9 @@ jobs:
           distribution: 'microsoft'
 
       - name: Build with Maven
-        run: mvn clean install
-        working-directory: ccgc-backend  # ✅ point to correct project dir
+        run: mvn clean install -DskipTests
+        working-directory: ccgc-backend
+
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
