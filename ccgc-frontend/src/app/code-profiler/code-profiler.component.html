@@ -1,0 +1,23 @@
+<div class="code-profiler">
+  <h2>Submit Code for Analysis</h2>
+
+  <form (ngSubmit)="submitCode()">
+    <label for="language">Language:</label>
+    <select id="language" [(ngModel)]="language" name="language" required>
+      <option value="python">Python</option>
+      <option value="js">JavaScript</option>
+      <option value="java">Java</option>
+    </select>
+
+    <label for="fileName">File Name Hint:</label>
+    <input id="fileName" [(ngModel)]="fileNameHint" name="fileNameHint" required />
+
+    <label for="code">Code:</label>
+    <textarea id="code" rows="10" [(ngModel)]="code" name="code" required></textarea>
+
+    <label for="fileUpload">Upload Code File:</label>
+    <input id="fileUpload" type="file" (change)="handleFileUpload($event)" accept=".py,.js,.java" style="display: block; margin-bottom: 10px;" />
+
+    <button type="submit">Analyze</button>
+  </form>
+</div>

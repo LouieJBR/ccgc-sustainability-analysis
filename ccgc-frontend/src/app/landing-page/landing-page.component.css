@@ -30,7 +30,37 @@
   border-radius: 10px;
   transition: transform 0.3s ease; /* Smooth transition for growth */
 }
+.metrics-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem; /* Keep margin-top for spacing */
+}
+
+.metrics-table th,
+.metrics-table td {
+  padding: 0.75rem 1.5rem; /* Add consistent horizontal padding */
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  vertical-align: top;
+}
+
+.metrics-table th {
+  font-weight: 600;
+}
+
+table {
+  text-align: center;
+  align-content: center;
+}
 
 .metric-item:hover {
   transform: scale(1.05); /* Grow slightly on hover */
 }
+
+.dropdown-wrapper {
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+

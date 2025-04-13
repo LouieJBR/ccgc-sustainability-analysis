@@ -1,62 +1,113 @@
 <app-jumbotron-content></app-jumbotron-content>
 <body>
 <main>
-    <section id="overview" class="overview">
-      <h3>Overview</h3>
-      <p>Track your code’s sustainability metrics at a glance.</p>
-      <div class="metrics">
-        <div class="metric-item">
-          <h4>Code Efficiency</h4>
-          <p>85%</p>
-        </div>
-        <div class="metric-item">
-          <h4>Carbon Footprint</h4>
-          <p>Low</p>
-        </div>
-        <div class="metric-item">
-          <h4>Code Reusability</h4>
-          <p>90%</p>
-        </div>
+  <section id="overview" class="overview">
+    <h3>Overview</h3>
+    <p>Track your code’s sustainability metrics at a glance.</p>
+    <div class="metrics">
+      <div class="metric-item">
+        <h4>Code Efficiency</h4>
+        <p>{{ selectedResult?.greenScore || 'N/A' }}%</p>
       </div>
-    </section>
+      <div class="metric-item">
+        <h4>Carbon Footprint</h4>
+        <p>{{ getCarbonFootprintRating(selectedResult?.carbonIntensity) }}</p>
+      </div>
+      <div class="metric-item">
+        <h4>Resource Usage</h4>
+        <p>{{ getCpuLoadRating(selectedResult?.cpuTimeMs) }}</p>
+      </div>
+    </div>
+  </section>
+
   <section id="metrics" class="metrics-section">
     <h3>Detailed Metrics</h3>
-    <table>
-      <thead>
-      <tr>
-        <th>Metric</th>
-        <th>Value</th>
-        <th>Recommendation</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <td>Code Complexity</td>
-        <td>High</td>
-        <td>Refactor to reduce complexity.</td>
-      </tr>
-      <tr>
-        <td>Test Coverage</td>
-        <td>75%</td>
-        <td>Increase coverage to 85%.</td>
-      </tr>
-      <tr>
-        <td>Dependencies</td>
-        <td>5</td>
-        <td>Consider removing unused dependencies.</td>
-      </tr>
-      </tbody>
-    </table>
+    <div *ngIf="allResults.length > 1" class="dropdown-wrapper">
+      <label for="runSelector">Select a Run:</label>
+      <select id="runSelector" (change)="onResultSelected($event)">
+        <option *ngFor="let run of allResults; let i = index" [value]="i">
+          {{ run.createdAt | date: 'short' }}
+        </option>
+      </select>
+      <a href="#" (click)="deleteSelectedResult($event)" class="delete-link" *ngIf="selectedResult">
+        Delete Run
+      </a>
+    </div>
+
+    <ng-container *ngIf="selectedResult; else noMetrics">
+      <div class="metrics-table">
+      <table>
+        <thead>
+        <tr>
+          <th>Metric</th>
+          <th>Value</th>
+          <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>CPU Time (ms)</td>
+          <td>{{ selectedResult!.cpuTimeMs }}</td>
+          <td>Time taken by the CPU to run the code.</td>
+        </tr>
+        <tr>
+          <td>Memory Used (MB)</td>
+          <td>{{ selectedResult!.memoryUsedMb }}</td>
+          <td>Amount of memory consumed during execution.</td>
+        </tr>
+        <tr>
+          <td>Estimated Energy (J)</td>
+          <td>{{ selectedResult!.estimatedEnergyJoules | number: '1.5-5' }}</td>
+          <td>Estimated energy used based on CPU and memory usage.</td>
+        </tr>
+        <tr>
+          <td>Green Score</td>
+          <td>{{ selectedResult!.greenScore }}</td>
+          <td>Efficiency score from 0–100 based on resource use.</td>
+        </tr>
+        <tr>
+          <td>Carbon Intensity</td>
+          <td>{{ selectedResult!.carbonIntensity }}</td>
+          <td>CO₂ equivalent per kWh in the execution region.</td>
+        </tr>
+        <tr>
+          <td>Execution Region</td>
+          <td>{{ selectedResult!.executionRegion }}</td>
+          <td>Geographic area where code was run.</td>
+        </tr>
+        <tr>
+          <td>Exit Code</td>
+          <td>{{ selectedResult!.exitCode }}</td>
+          <td>Indicates whether the program ran successfully.</td>
+        </tr>
+        <tr>
+          <td>Created At</td>
+          <td>{{ selectedResult!.createdAt | date: 'short' }}</td>
+          <td>Date and time when this result was recorded.</td>
+        </tr>
+        </tbody>
+      </table>
+      </div>
+    </ng-container>
+
+    <ng-template #noMetrics>
+      <p>No metrics available yet.</p>
+    </ng-template>
   </section>
-    <section id="suggestions" class="suggestions-section">
-      <h3>Suggestions for Improvement</h3>
-      <ul>
-        <li>Implement code reviews to ensure sustainability practices.</li>
-        <li>Utilize automated tools for code quality analysis.</li>
-        <li>Encourage team members to participate in sustainability training.</li>
-      </ul>
-    </section>
-    <section id="resources" class="resources-section">
+
+
+  <section id="suggestions" class="suggestions-section">
+    <h3>Suggestions for Improvement</h3>
+    <ul *ngIf="selectedResult && selectedResult.suggestions && selectedResult.suggestions.length > 0; else noSuggestions">
+      <li *ngFor="let suggestion of selectedResult?.suggestions">{{ suggestion }}</li>
+    </ul>
+    <ng-template #noSuggestions>
+      <p>No suggestions available right now.</p>
+    </ng-template>
+  </section>
+
+
+  <section id="resources" class="resources-section">
       <h3>Resources</h3>
       <ul>
         <li><a href="https://example.com/resource1">Sustainable Coding Practices</a></li>

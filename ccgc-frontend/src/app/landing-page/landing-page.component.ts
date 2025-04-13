@@ -1,24 +1,101 @@
-import {Component} from '@angular/core';
-import {MatTab, MatTabGroup} from "@angular/material/tabs";
-import {RouterLink} from "@angular/router";
-import {JumbotronContentComponent} from "../shared/jumbotron-content/jumbotron-content.component";
-import {HeaderComponent} from "../shared/header/header.component";
+import { Component, inject, OnInit } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { AuthService } from '@auth0/auth0-angular';
+import { ProfilingResult } from '../models/profiling-result.model';
 import {FooterComponent} from "../shared/footer/footer.component";
+import {CommonModule, DatePipe} from "@angular/common";
+import {JumbotronContentComponent} from "../shared/jumbotron-content/jumbotron-content.component"; // Make sure this exists
 
 @Component({
   selector: 'app-landing-page',
   standalone: true,
   templateUrl: './landing-page.component.html',
+  styleUrls: ['./landing-page.component.css'],
   imports: [
-    MatTab,
-    MatTabGroup,
-    RouterLink,
-    JumbotronContentComponent,
-    HeaderComponent,
-    FooterComponent
-  ],
-  styleUrls: ['./landing-page.component.css'] // Fixed 'styleUrl' to 'styleUrls'
+    CommonModule,
+    FooterComponent,
+    DatePipe,
+    JumbotronContentComponent
+  ]
 })
-export class LandingPageComponent {
-  // You can add properties and methods here
+export class LandingPageComponent implements OnInit {
+  latestResult: ProfilingResult | null = null;
+  allResults: ProfilingResult[] = [];
+  selectedResult: ProfilingResult | null = null;
+
+  private http = inject(HttpClient);
+  private auth = inject(AuthService);
+
+  ngOnInit(): void {
+    this.auth.getAccessTokenSilently().subscribe(token => {
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+      });
+
+      this.http.get<ProfilingResult[]>('http://localhost:8080/api/analyze/user', { headers })
+        .subscribe({
+          next: (results) => {
+            this.allResults = results;
+            this.latestResult = results.length > 0 ? results[results.length - 1] : null;
+            this.selectedResult = this.latestResult; // ✅ Default to latest
+          },
+          error: err => {
+            console.error('Failed to fetch profiling results', err);
+          }
+        });
+    });
+  }
+
+  getCarbonFootprintRating(intensity?: number): string {
+    if (intensity == null) return 'N/A';
+    if (intensity <= 150) return 'Low';
+    if (intensity <= 400) return 'Moderate';
+    return 'High';
+  }
+
+  getCpuLoadRating(cpuTimeMs?: number): string {
+    if (cpuTimeMs == null) return 'N/A';
+    if (cpuTimeMs < 500) return 'Low';
+    if (cpuTimeMs < 1500) return 'Moderate';
+    return 'High';
+  }
+
+  onResultSelected(event: Event): void {
+    const index = (event.target as HTMLSelectElement).value;
+    this.selectedResult = this.allResults[+index];
+  }
+
+  deleteSelectedResult(event: Event): void {
+    event.preventDefault();
+
+    if (!this.selectedResult || !this.selectedResult.id) {
+      alert('No run selected to delete.');
+      return;
+    }
+
+    this.auth.getAccessTokenSilently().subscribe(token => {
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+      });
+
+      this.http.delete(`http://localhost:8080/api/analyze/${this.selectedResult!.id}`, { headers })
+        .subscribe({
+          next: () => {
+            this.allResults = this.allResults.filter(r => r.id !== this.selectedResult!.id);
+            this.selectedResult = this.allResults.length > 0 ? this.allResults[this.allResults.length - 1] : null;
+            alert('Run deleted successfully.');
+          },
+          error: err => {
+            if (err.status !== 404 || err.status !== 200) {
+              console.error('Failed to delete run:', err);
+              alert('Failed to delete run. See console for details.');
+            } else {
+              console.warn('Result not found. It may have already been deleted.');
+            }
+          }
+
+        });
+    });
+  }
+
 }
