@@ -18,17 +18,18 @@ jobs:
       - name: Set up Java version
         uses: actions/setup-java@v4
         with:
-          java-version: '21'  # ✅ FIXED
+          java-version: '21'
           distribution: 'microsoft'
 
       - name: Build with Maven
         run: mvn clean install
+        working-directory: ccgc-backend  # ✅ point to correct project dir
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: java-app
-          path: '${{ github.workspace }}/target/*.jar'
+          path: 'ccgc-backend/target/*.jar'  # ✅ updated
 
   deploy:
     runs-on: ubuntu-latest
