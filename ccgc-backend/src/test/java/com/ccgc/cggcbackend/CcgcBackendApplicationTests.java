@@ -5,14 +5,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest
-
 @TestPropertySource(properties = {
-		"electricitymap.api.key=ZcY4ZMGEz2kopq9IOC2K" // Prevent failure on startup
+		"electricitymap.api.key=ZcY4ZMGEz2kopq9IOC2K" // example value
 })
 public class CcgcBackendApplicationTests {
+
 	@Test
 	void contextLoads() {
-		// Just verifying Spring context loads
+		// This just verifies the Spring context can load
 	}
 }
-

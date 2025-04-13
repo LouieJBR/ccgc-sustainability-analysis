@@ -1,14 +1,16 @@
 package com.ccgc.cggcbackend.service;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.ccgc.cggcbackend.model.ProfilingResult;
+import com.ccgc.cggcbackend.model.User;
+import com.ccgc.cggcbackend.repository.UserRepository;
 import com.ccgc.cggcbackend.request.CodeSubmissionRequest;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.*;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
@@ -18,6 +20,33 @@ import org.springframework.beans.factory.annotation.Value;
 
 @Service
 public class CodeProfilerService {
+
+    private UserRepository userRepository = null;
+
+    public CodeProfilerService(UserRepository mockRepo) {
+        this.userRepository = userRepository;
+    }
+
+    public User extractUserFromToken(String authHeader) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            throw new RuntimeException("Invalid authorization header");
+        }
+
+        String token = authHeader.substring(7); // Remove "Bearer "
+
+        DecodedJWT decoded = JWT.decode(token);
+        String auth0Id = decoded.getSubject();
+        String email = decoded.getClaim("email").asString();
+        String name = decoded.getClaim("name").asString();
+
+        return userRepository.findByAuth0Id(auth0Id).orElseGet(() -> {
+            User newUser = new User();
+            newUser.setAuth0Id(auth0Id);
+            newUser.setEmail(email);
+            newUser.setName(name);
+            return userRepository.save(newUser);
+        });
+    }
 
     public ProfilingResult profileCode(CodeSubmissionRequest request) {
         String filePath = saveCodeToTempFile(request.getCode(), request.getLanguage(), request.getFileNameHint());

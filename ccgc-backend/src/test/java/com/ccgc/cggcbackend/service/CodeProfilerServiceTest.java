@@ -1,9 +1,11 @@
 package com.ccgc.cggcbackend.service;
 
 import com.ccgc.cggcbackend.model.ProfilingResult;
+import com.ccgc.cggcbackend.repository.UserRepository;
 import com.ccgc.cggcbackend.request.CodeSubmissionRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
@@ -17,12 +19,12 @@ import static org.junit.jupiter.api.Assertions.*;
 })
 
 public class CodeProfilerServiceTest {
-
-    private CodeProfilerService service;
+    UserRepository mockRepo = Mockito.mock(UserRepository.class);
+    CodeProfilerService service = new CodeProfilerService(mockRepo);
 
     @BeforeEach
     public void setUp() {
-        service = new CodeProfilerService();
+        service = new CodeProfilerService(mockRepo);
     }
 
     @Test
