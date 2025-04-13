@@ -20,13 +20,11 @@ import org.springframework.beans.factory.annotation.Value;
 
 @Service
 public class CodeProfilerService {
+    private final UserRepository userRepository;
 
-    private UserRepository userRepository = null;
-
-    public CodeProfilerService(UserRepository mockRepo) {
+    public CodeProfilerService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-
     public User extractUserFromToken(String authHeader) {
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             throw new RuntimeException("Invalid authorization header");
