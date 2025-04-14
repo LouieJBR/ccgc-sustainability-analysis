@@ -27,7 +27,6 @@ public class AuthController {
             return ResponseEntity.ok(existingUser.get());
         }
 
-        // Create a new user if not exists
         User newUser = new User();
         newUser.setAuth0Id(request.getAuth0Id());
         newUser.setEmail(request.getEmail());
@@ -37,4 +36,3 @@ public class AuthController {
         return ResponseEntity.ok(newUser);
     }
 }
-

@@ -18,8 +18,9 @@
           <input id="fileNameHint" type="text" [(ngModel)]="fileNameHint" name="fileNameHint" required />
         </div>
       </div>
+      <label for="fileUpload">Upload Code File:</label>
+      <input id="fileUpload" type="file" (change)="handleFileUpload($event)" accept=".py,.js,.java"/>
 
-      <!-- ✅ Centered textarea below -->
       <div class="textarea-container">
         <label for="code">Code:</label>
         <textarea id="code" [(ngModel)]="code" name="code" rows="6" required></textarea>

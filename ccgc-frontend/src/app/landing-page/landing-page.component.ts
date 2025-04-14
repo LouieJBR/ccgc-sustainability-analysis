@@ -1,7 +1,7 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { AuthService } from '@auth0/auth0-angular';
-import { ProfilingResult } from '../models/profiling-result.model';
+import {Component, inject, OnInit} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {AuthService} from '@auth0/auth0-angular';
+import {ProfilingResult} from '../models/profiling-result.model';
 import {FooterComponent} from "../shared/footer/footer.component";
 import {CommonModule, DatePipe} from "@angular/common";
 import {JumbotronContentComponent} from "../shared/jumbotron-content/jumbotron-content.component"; // Make sure this exists
@@ -37,7 +37,7 @@ export class LandingPageComponent implements OnInit {
           next: (results) => {
             this.allResults = results;
             this.latestResult = results.length > 0 ? results[results.length - 1] : null;
-            this.selectedResult = this.latestResult; // ✅ Default to latest
+            this.selectedResult = this.latestResult;
           },
           error: err => {
             console.error('Failed to fetch profiling results', err);
