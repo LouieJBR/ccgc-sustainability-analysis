@@ -13,6 +13,7 @@ bootstrapApplication(AppComponent, {
       authorizationParams: {
         redirect_uri: environment.auth.redirectUri,
         audience: environment.auth.audience,
+        scope: 'openid profile email offline_access',
       },
       cacheLocation: 'localstorage',
       useRefreshTokens: true,
