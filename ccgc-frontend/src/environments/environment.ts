@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8080/api',
+  apiUrl: 'https://ccgc-backend-dxdqfmcaexa3a2c3.uksouth-01.azurewebsites.net/api',
   auth: {
     domain: 'dev-m1vbm7mjkcjugfu4.uk.auth0.com',
     clientId: 'VpE5HKtJzTdhP3gj5lMHeCM9awyh2Kgo',
