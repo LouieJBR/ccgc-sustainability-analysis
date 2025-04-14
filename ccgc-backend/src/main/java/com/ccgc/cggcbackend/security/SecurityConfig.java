@@ -38,15 +38,14 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(List.of(
                 "https://ccgc-frontend-ascfh6gvfzdwdbbx.uksouth-01.azurewebsites.net",
-                "https://ccgc-backend-dxdqfmcaexa3a2c3.uksouth-01.azurewebsites.net",
                 "http://localhost:4200"
         ));
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setAllowedMethods(List.of("GET", "POST", "OPTIONS", "PUT", "DELETE"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config); // Apply to all endpoints
+        source.registerCorsConfiguration("/**", config);
         return source;
     }
 }
