@@ -17,7 +17,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
-                .cors(Customizer.withDefaults()) // ✅ Enable CORS support
+                .cors(Customizer.withDefaults())
                 .securityMatcher("/**")
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
@@ -38,6 +38,7 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(List.of(
                 "https://ccgc-frontend-ascfh6gvfzdwdbbx.uksouth-01.azurewebsites.net",
+                "https://ccgc-backend-dxdqfmcaexa3a2c3.uksouth-01.azurewebsites.net",
                 "http://localhost:4200"
         ));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
