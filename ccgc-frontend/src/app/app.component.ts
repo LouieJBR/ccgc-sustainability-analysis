@@ -3,7 +3,6 @@ import {RouterOutlet} from '@angular/router';
 import {LandingPageComponent} from './landing-page/landing-page.component';
 import {HeaderComponent} from "./shared/header/header.component";
 import {UserProfileComponent} from "./user-profile/user-profile.component";
-import {filter, from, switchMap} from "rxjs";
 import {AuthService} from "@auth0/auth0-angular";
 
 @Component({
@@ -24,16 +23,22 @@ export class AppComponent implements OnInit {
   private auth = inject(AuthService);
 
   ngOnInit(): void {
-    from(this.auth.handleRedirectCallback()).pipe(
-      switchMap(() => this.auth.isAuthenticated$),
-      filter(isAuthenticated => isAuthenticated)
-    ).subscribe(() => {
-      this.auth.getAccessTokenSilently().subscribe(token => {
-        console.log('Token ready after redirect:', token);
+    const params = new URLSearchParams(window.location.search);
+    const hasCode = params.has('code');
+    const hasState = params.has('state');
+
+    if (hasCode && hasState) {
+      this.auth.handleRedirectCallback().subscribe({
+        next: () => {
+          console.log('Redirect callback handled');
+          // Optional: remove query string
+          window.history.replaceState({}, '', window.location.pathname);
+        },
+        error: (err) => {
+          console.error('Redirect handling failed:', err);
+        }
       });
-    }, err => {
-      console.error('Error during Auth0 redirect callback:', err);
-    });
+    }
   }
 
   @ViewChild(UserProfileComponent) popup!: UserProfileComponent;
