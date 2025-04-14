@@ -25,7 +25,6 @@ export class SnippetProfilerComponent {
 
   submitCode() {
     this.auth.getAccessTokenSilently().subscribe(token => {
-      console.log('Access token:', token); // Add this
       const headers = new HttpHeaders({
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
@@ -46,5 +45,17 @@ export class SnippetProfilerComponent {
           }
         });
     });
+  }
+  handleFileUpload(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (!input.files || input.files.length === 0) return;
+
+    const file = input.files[0];
+    this.fileNameHint = file.name.split('.')[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.code = reader.result as string;
+    };
+    reader.readAsText(file);
   }
 }

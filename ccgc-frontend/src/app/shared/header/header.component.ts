@@ -24,7 +24,6 @@ export class HeaderComponent {
 
       if (isAuthenticated) {
         this.auth.user$.subscribe(user => {
-          // ✅ Sync with backend
           if (user) {
             const payload = {
               auth0Id: user.sub,
@@ -33,8 +32,8 @@ export class HeaderComponent {
             };
 
             this.http.post('http://localhost:8080/api/auth/oauth', payload).subscribe({
-              next: () => console.log('User synced with backend'),
-              error: err => console.error('Failed to sync user:', err)
+              next: () => console.log('User connected with backend'),
+              error: err => console.error('Failed to connect user:', err)
             });
           }
         });

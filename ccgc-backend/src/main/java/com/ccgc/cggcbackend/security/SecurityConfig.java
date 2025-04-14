@@ -15,11 +15,11 @@ public class SecurityConfig {
         return http
                 .securityMatcher("/**")
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll()  // ✅ Public
-                        .anyRequest().authenticated()                // 🔐 Others protected
+                        .requestMatchers("/api/auth/**").permitAll()  //Public
+                        .anyRequest().authenticated()
                 )
-                .httpBasic(Customizer.withDefaults())                 // Optional: or use JWT later
-                .csrf(csrf -> csrf.disable())                         // ✅ Disable CSRF
+                .httpBasic(Customizer.withDefaults())
+                .csrf(csrf -> csrf.disable())
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt
                                 .jwkSetUri("https://dev-m1vbm7mjkcjugfu4.uk.auth0.com/.well-known/jwks.json")
@@ -28,4 +28,3 @@ public class SecurityConfig {
                 .build();
     }
 }
-

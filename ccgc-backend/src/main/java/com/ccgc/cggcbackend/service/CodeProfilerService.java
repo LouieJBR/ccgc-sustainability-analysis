@@ -6,22 +6,29 @@ import com.ccgc.cggcbackend.model.ProfilingResult;
 import com.ccgc.cggcbackend.model.User;
 import com.ccgc.cggcbackend.repository.UserRepository;
 import com.ccgc.cggcbackend.request.CodeSubmissionRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import org.springframework.beans.factory.annotation.Value;
 
 
 @Service
 public class CodeProfilerService {
     private final UserRepository userRepository;
 
+    @Autowired
     public CodeProfilerService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -30,7 +37,7 @@ public class CodeProfilerService {
             throw new RuntimeException("Invalid authorization header");
         }
 
-        String token = authHeader.substring(7); // Remove "Bearer "
+        String token = authHeader.substring(7);
 
         DecodedJWT decoded = JWT.decode(token);
         String auth0Id = decoded.getSubject();
@@ -64,15 +71,14 @@ public class CodeProfilerService {
         int greenScore = calculateGreenScore(cpuTimeMs, memoryUsedMb, estimatedEnergy);
         List<String> suggestions = generateSuggestions(request.getCode(), cpuTimeMs, memoryUsedMb);
 
-//        String region = getExecutionRegion();
-        String region = "GB"; // Use zone code like "GB", "DE", "FR", "US-NY"
+        String region = "GB";
         double carbonIntensity = getCarbonIntensityFromAPI(region);
 
         return new ProfilingResult(cpuTimeMs, memoryUsedMb, estimatedEnergy, process.exitValue(),
                 greenScore, suggestions, region, carbonIntensity);
     }
 
-    private String saveCodeToTempFile(String code, String language, String fileNameHint) {
+    String saveCodeToTempFile(String code, String language, String fileNameHint) {
         String extension = switch (language.toLowerCase()) {
             case "python" -> ".py";
             case "js" -> ".js";
@@ -88,7 +94,7 @@ public class CodeProfilerService {
         }
     }
 
-    private Process runCode(String filePath, String language) {
+    Process runCode(String filePath, String language) {
         List<String> command;
         switch (language.toLowerCase()) {
             case "python" -> command = List.of("python", filePath);
@@ -97,7 +103,7 @@ public class CodeProfilerService {
                 String className = new File(filePath).getName().replace(".java", "");
                 try {
                     Process compile = new ProcessBuilder("javac", filePath)
-                            .inheritIO() // ✅ This will show compile errors in your console
+                            .inheritIO()
                             .start();
                     compile.waitFor();
                 } catch (Exception e) {
@@ -113,7 +119,6 @@ public class CodeProfilerService {
             builder.redirectErrorStream(true);
             Process process = builder.start();
 
-            // ✅ Capture output for debugging
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
                 String line;
                 while ((line = reader.readLine()) != null) {
@@ -134,7 +139,7 @@ public class CodeProfilerService {
         return runtime.totalMemory() - runtime.freeMemory();
     }
 
-    private double estimateEnergy(double cpuMs, double memMb) {
+    double estimateEnergy(double cpuMs, double memMb) {
         return 0.0001 * cpuMs + 0.00005 * memMb;
     }
 
@@ -151,7 +156,7 @@ public class CodeProfilerService {
         return (int) Math.round(weightedScore * 100);
     }
 
-    private double normalize(double value, double max) {
+    double normalize(double value, double max) {
         return Math.min(1.0, value / max);
     }
 
@@ -179,23 +184,15 @@ public class CodeProfilerService {
     }
 
 
-//    private String getExecutionRegion() {
-//        try {
-//            return InetAddress.getLocalHost().getHostName();
-//        } catch (UnknownHostException e) {
-//            return "unknown";
-//        }
-//    }
-
     @Value("${electricitymap.api.key}")
     private String electricityMapApiKey;
 
-    private double getCarbonIntensityFromAPI(String region) {
+    double getCarbonIntensityFromAPI(String region) {
         try {
             String url = "https://api.electricitymap.org/v3/carbon-intensity/latest?zone=" + region;
 
             HttpHeaders headers = new HttpHeaders();
-            headers.set("auth-token", "ZcY4ZMGEz2kopq9IOC2K"); // ✅ Correct token header
+            headers.set("auth-token", electricityMapApiKey);
 
             HttpEntity<Void> entity = new HttpEntity<>(headers);
             RestTemplate restTemplate = new RestTemplate();

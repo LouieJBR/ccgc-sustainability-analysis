@@ -100,7 +100,7 @@ public class ProfilingResult {
         this.carbonIntensity = carbonIntensity;
 
         // Set calculated/duplicated fields for DB schema compatibility
-        this.cpuUsage = cpuTimeMs; // You can later map this differently if needed
+        this.cpuUsage = cpuTimeMs;
         this.memoryUsage = memoryUsedMb;
         this.energyConsumption = estimatedEnergyJoules;
     }
