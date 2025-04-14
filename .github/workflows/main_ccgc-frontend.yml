@@ -27,22 +27,21 @@ jobs:
           npm run build
 
       - name: Zip built app for deployment
-        working-directory: ccgc-frontend/dist/frontend
-        run: zip -r ../../release.zip .
+        run: |
+          cd ccgc-frontend/dist/frontend
+          zip -r ../../release.zip ./*
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-            name: node-app
-            path: ccgc-frontend/release.zip
-
+          name: node-app
+          path: ccgc-frontend/release.zip
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
     environment:
       name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
       id-token: write
       contents: read
@@ -52,10 +51,9 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: node-app
-          path: node-app
 
       - name: Unzip artifact for deployment
-        run: unzip node-app/release.zip -d .
+        run: unzip release.zip
 
       - name: Login to Azure
         uses: azure/login@v2
@@ -70,5 +68,4 @@ jobs:
         with:
           app-name: 'ccgc-frontend'
           slot-name: 'Production'
-          package: './node-app/release.zip'
-      
+          package: .

@@ -4,8 +4,7 @@ export const environment = {
   auth: {
     domain: 'dev-m1vbm7mjkcjugfu4.uk.auth0.com',
     clientId: 'VpE5HKtJzTdhP3gj5lMHeCM9awyh2Kgo',
-    authorizationParams: {
-      redirect_uri: 'http://localhost:4200'
-    }
+    audience: 'https://ccgc-api',
+    redirectUri: 'http://localhost:4200',
   }
 };
