@@ -42,6 +42,8 @@ export class HeaderComponent {
   }
 
   login() {
-    this.auth.loginWithRedirect();
-  }
+    this.auth.loginWithRedirect({
+      audience: 'https://ccgc-api',
+      scope: 'openid profile email offline_access'
+    });  }
 }
