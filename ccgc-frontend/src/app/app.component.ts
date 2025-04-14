@@ -1,8 +1,10 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, inject, OnInit, ViewChild} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {LandingPageComponent} from './landing-page/landing-page.component';
 import {HeaderComponent} from "./shared/header/header.component";
 import {UserProfileComponent} from "./user-profile/user-profile.component";
+import {filter, from, switchMap} from "rxjs";
+import {AuthService} from "@auth0/auth0-angular";
 
 @Component({
   selector: 'app-root',
@@ -16,8 +18,23 @@ import {UserProfileComponent} from "./user-profile/user-profile.component";
   `,
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'CCGC';
+
+  private auth = inject(AuthService);
+
+  ngOnInit(): void {
+    from(this.auth.handleRedirectCallback()).pipe(
+      switchMap(() => this.auth.isAuthenticated$),
+      filter(isAuthenticated => isAuthenticated)
+    ).subscribe(() => {
+      this.auth.getAccessTokenSilently().subscribe(token => {
+        console.log('Token ready after redirect:', token);
+      });
+    }, err => {
+      console.error('Error during Auth0 redirect callback:', err);
+    });
+  }
 
   @ViewChild(UserProfileComponent) popup!: UserProfileComponent;
 }
