@@ -31,7 +31,7 @@ export class HeaderComponent {
               email: user.email
             };
 
-            this.http.post('http://localhost:8080/api/auth/oauth', payload).subscribe({
+            this.http.post('https://ccgc-backend-dxdqfmcaexa3a2c3.uksouth-01.azurewebsites.net/api/auth/oauth', payload).subscribe({
               next: () => console.log('User connected with backend'),
               error: err => console.error('Failed to connect user:', err)
             });

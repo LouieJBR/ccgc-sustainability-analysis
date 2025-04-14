@@ -32,7 +32,7 @@ export class LandingPageComponent implements OnInit {
         'Authorization': `Bearer ${token}`
       });
 
-      this.http.get<ProfilingResult[]>('http://localhost:8080/api/analyze/user', { headers })
+      this.http.get<ProfilingResult[]>('https://ccgc-backend-dxdqfmcaexa3a2c3.uksouth-01.azurewebsites.net/api/analyze/user', { headers })
         .subscribe({
           next: (results) => {
             this.allResults = results;
@@ -78,7 +78,7 @@ export class LandingPageComponent implements OnInit {
         'Authorization': `Bearer ${token}`
       });
 
-      this.http.delete(`http://localhost:8080/api/analyze/${this.selectedResult!.id}`, { headers })
+      this.http.delete(`https://ccgc-backend-dxdqfmcaexa3a2c3.uksouth-01.azurewebsites.net/api/analyze/${this.selectedResult!.id}`, { headers })
         .subscribe({
           next: () => {
             this.allResults = this.allResults.filter(r => r.id !== this.selectedResult!.id);
