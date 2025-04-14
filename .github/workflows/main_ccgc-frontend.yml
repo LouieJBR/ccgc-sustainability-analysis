@@ -24,7 +24,7 @@ jobs:
         working-directory: ccgc-frontend
         run: |
           npm install
-          npm run build --prod
+          npm run build --configuration=production
 
       - name: Zip built app for deployment
         run: |
