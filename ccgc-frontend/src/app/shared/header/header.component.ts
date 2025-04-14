@@ -3,6 +3,7 @@ import {DOCUMENT, NgIf} from "@angular/common";
 import {AuthService} from "@auth0/auth0-angular";
 import {UserProfileComponent} from "../../user-profile/user-profile.component";
 import {HttpClient} from "@angular/common/http";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-header',
@@ -42,6 +43,11 @@ export class HeaderComponent {
   }
 
   login() {
-    this.auth.loginWithRedirect();
-  }
+      this.auth.loginWithRedirect({
+        authorizationParams: {
+          audience: environment.auth.audience,
+          scope: 'openid profile email offline_access',
+          redirect_uri: environment.auth.redirectUri,
+        }});
+      }
 }
