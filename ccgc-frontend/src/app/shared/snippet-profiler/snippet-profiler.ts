@@ -24,28 +24,45 @@ export class SnippetProfilerComponent {
   private auth = inject(AuthService);
 
   submitCode() {
-    this.auth.getAccessTokenSilently().subscribe(token => {
-      const headers = new HttpHeaders({
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
+    this.auth.isAuthenticated$.subscribe(isAuthenticated => {
+      if (!isAuthenticated) {
+        alert('You must be logged in to analyze code.');
+        return;
+      }
+
+      this.auth.getAccessTokenSilently().subscribe({
+        next: token => {
+          const headers = new HttpHeaders({
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          });
+
+          const payload = {
+            code: this.code,
+            language: this.language,
+            fileNameHint: this.fileNameHint
+          };
+
+          this.http.post<ProfilingResult>(
+            'https://ccgc-backend-dxdqfmcaexa3a2c3.uksouth-01.azurewebsites.net/api/analyze',
+            payload,
+            { headers }
+          ).subscribe({
+            next: res => this.result = res,
+            error: err => {
+              console.error('Error:', err);
+              alert('Code analysis failed. See console.');
+            }
+          });
+        },
+        error: err => {
+          console.error('Failed to get access token silently', err);
+          alert('Unable to authenticate. Please log in again.');
+        }
       });
-
-      const payload = {
-        code: this.code,
-        language: this.language,
-        fileNameHint: this.fileNameHint
-      };
-
-      this.http.post<ProfilingResult>('https://ccgc-backend-dxdqfmcaexa3a2c3.uksouth-01.azurewebsites.net/api/analyze', payload, { headers })
-        .subscribe({
-          next: res => this.result = res,
-          error: err => {
-            console.error('Error:', err);
-            alert('Code analysis failed. See console.');
-          }
-        });
     });
   }
+
   handleFileUpload(event: Event) {
     const input = event.target as HTMLInputElement;
     if (!input.files || input.files.length === 0) return;

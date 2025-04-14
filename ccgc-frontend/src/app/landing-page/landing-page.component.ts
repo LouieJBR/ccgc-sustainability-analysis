@@ -27,24 +27,38 @@ export class LandingPageComponent implements OnInit {
   private auth = inject(AuthService);
 
   ngOnInit(): void {
-    this.auth.getAccessTokenSilently().subscribe(token => {
-      const headers = new HttpHeaders({
-        'Authorization': `Bearer ${token}`
-      });
+    this.auth.isAuthenticated$.subscribe(isAuthenticated => {
+      if (!isAuthenticated) {
+        return;
+      }
 
-      this.http.get<ProfilingResult[]>('https://ccgc-backend-dxdqfmcaexa3a2c3.uksouth-01.azurewebsites.net/api/analyze/user', { headers })
-        .subscribe({
-          next: (results) => {
-            this.allResults = results;
-            this.latestResult = results.length > 0 ? results[results.length - 1] : null;
-            this.selectedResult = this.latestResult;
-          },
-          error: err => {
-            console.error('Failed to fetch profiling results', err);
-          }
-        });
+      this.auth.getAccessTokenSilently().subscribe({
+        next: (token) => {
+          const headers = new HttpHeaders({
+            'Authorization': `Bearer ${token}`
+          });
+
+          this.http.get<ProfilingResult[]>(
+            'https://ccgc-backend-dxdqfmcaexa3a2c3.uksouth-01.azurewebsites.net/api/analyze/user',
+            { headers }
+          ).subscribe({
+            next: (results) => {
+              this.allResults = results;
+              this.latestResult = results.length > 0 ? results[results.length - 1] : null;
+              this.selectedResult = this.latestResult;
+            },
+            error: err => {
+              console.error('Failed to fetch profiling results', err);
+            }
+          });
+        },
+        error: err => {
+          console.error('Failed to get access token silently', err);
+        }
+      });
     });
   }
+
 
   getCarbonFootprintRating(intensity?: number): string {
     if (intensity == null) return 'N/A';
