@@ -36,7 +36,7 @@ export class SnippetProfilerComponent {
         fileNameHint: this.fileNameHint
       };
 
-      this.http.post<ProfilingResult>('http://localhost:8080/api/analyze', payload, { headers })
+      this.http.post<ProfilingResult>('https://ccgc-backend-dxdqfmcaexa3a2c3.uksouth-01.azurewebsites.net/api/analyze', payload, { headers })
         .subscribe({
           next: res => this.result = res,
           error: err => {
