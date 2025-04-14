@@ -11,7 +11,7 @@ import {AuthService} from "@auth0/auth0-angular";
   imports: [RouterOutlet, LandingPageComponent, HeaderComponent],
   template: `
     <router-outlet></router-outlet>
-    <app-header></app-header><!-- Router outlet to render routed components -->
+    <app-header></app-header>
     <app-landing-page></app-landing-page>
 
   `,
@@ -31,7 +31,6 @@ export class AppComponent implements OnInit {
       this.auth.handleRedirectCallback().subscribe({
         next: () => {
           console.log('Redirect callback handled');
-          // Optional: remove query string
           window.history.replaceState({}, '', window.location.pathname);
         },
         error: (err) => {
