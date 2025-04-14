@@ -82,14 +82,15 @@ run the following command
 - Java Spring
 - MySQL 
 
+---
 
-# ♻️ CCGC Sustainability Analyzer – CI/CD Integration Guide
+#  CCGC Sustainability Analyzer – CI/CD Integration Guide
 
 Easily integrate the CCGC Sustainability Analyzer into your CI/CD pipeline to measure the environmental impact of your code.
 
 ---
 
-## 🔐 Step 1: Get an API Token (Auth0)
+## Step 1: Get an API Token (Auth0)
 
 1. Go to the Auth0 dashboard (provided by the system administrator).
 2. Navigate to **Applications > APIs** and find the `ccgc-api`.
@@ -121,7 +122,7 @@ POST https://<your-auth0-domain>/oauth/token
 
 ---
 
-## 🚀 Step 2: Submit Code for Profiling
+## Step 2: Submit Code for Profiling
 
 Send a POST request to the `/api/analyze` endpoint with your code and metadata:
 
@@ -143,7 +144,7 @@ curl -X POST https://<your-api-url>/api/analyze \
 
 ---
 
-## 🧪 Example GitHub Action Step
+## Example GitHub Action Step
 
 ```yaml
 - name: Run Sustainability Check
@@ -165,7 +166,7 @@ curl -X POST https://<your-api-url>/api/analyze \
 
 ---
 
-## ✅ Supported Languages
+## Supported Languages
 
 - `python`
 - `js` (JavaScript)
@@ -173,7 +174,7 @@ curl -X POST https://<your-api-url>/api/analyze \
 
 ---
 
-## 📊 Sample API Response
+## Sample API Response
 
 ```json
 {
@@ -190,8 +191,3 @@ curl -X POST https://<your-api-url>/api/analyze \
 ```
 
 ---
-
-## 📬 Need Help?
-
-For API access and client credentials, please contact the system administrator or repository maintainer.
-
