@@ -28,6 +28,7 @@
               "src/custom-theme.scss",
               "src/styles.css"
             ],
+            "baseHref": "/",
             "scripts": []
           },
           "configurations": {

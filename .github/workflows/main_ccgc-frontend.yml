@@ -27,9 +27,8 @@ jobs:
           npm run build
 
       - name: Zip built app for deployment
-        run: |
-          cd ccgc-frontend/dist/frontend
-          zip -r ../../release.zip ./*
+        working-directory: ccgc-frontend/dist/frontend
+        run: zip -r ../../release.zip .
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
@@ -53,7 +52,7 @@ jobs:
           name: node-app
 
       - name: Unzip artifact for deployment
-        run: unzip release.zip
+        run: unzip node-app/release.zip -d .
 
       - name: Login to Azure
         uses: azure/login@v2
