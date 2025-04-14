@@ -43,11 +43,13 @@ export class HeaderComponent {
   }
 
   login() {
-      this.auth.loginWithRedirect({
-        authorizationParams: {
-          audience: environment.auth.audience,
-          scope: 'openid profile email offline_access',
-          redirect_uri: environment.auth.redirectUri,
-        }});
+    this.auth.loginWithRedirect({
+      authorizationParams: {
+        audience: environment.auth.audience,
+        scope: 'openid profile email offline_access',
+        redirect_uri: environment.auth.redirectUri
       }
+    });
+  }
+
 }
